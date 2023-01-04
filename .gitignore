@@ -1,3 +1,9 @@
-# Build folder and log file
-build/
-build.log
+#Ignore all files and folders.
+/*
+
+#Except the Assets and ProjectSettings folder, as well as the selected Git files.
+!Assets/
+!ProjectSettings/
+!Packages/
+!.gitignore
+!.gitattributes
