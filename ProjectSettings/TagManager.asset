@@ -3,17 +3,18 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Spawn
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Interactable
   - Water
   - UI
-  - 
-  - 
-  - 
+  - Projectile
+  - Enemy
+  - Tower
   - 
   - 
   - 
@@ -40,4 +41,16 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Enemy
+    uniqueID: 813946339
+    locked: 0
+  - name: TowerBase
+    uniqueID: 2438453613
+    locked: 0
+  - name: Projectile
+    uniqueID: 474094765
+    locked: 0
+  - name: TowerTop
+    uniqueID: 2183765039
     locked: 0
