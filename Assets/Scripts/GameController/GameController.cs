@@ -10,7 +10,7 @@ public class GameController : MonoBehaviour
     [SerializeField] private Tilemap gameField;
     [SerializeField] private Tile gameFieldTile;
     
-    public GameObject[] _hotBar;
+    public GameObject[] hotBar;
     private int _currentHotBarIndex;
     private GameObject _silhouette;
     private int CurrentHotBarIndex
@@ -18,7 +18,7 @@ public class GameController : MonoBehaviour
         get => _currentHotBarIndex;
         set
         {
-            var clampedValue = Mathf.Clamp(value, 0, _hotBar.Length - 1);
+            var clampedValue = Mathf.Clamp(value, 0, hotBar.Length - 1);
             if (clampedValue == CurrentHotBarIndex || _silhouette == null) return;
             _currentHotBarIndex = clampedValue;
             var pos = _silhouette.transform.position;
@@ -31,11 +31,13 @@ public class GameController : MonoBehaviour
     public Transform enemyParent;
 
     private List<Spawn> _spawns;
+
+    private CircuitController _circuitController;
     
     private void Awake()
     {
-        if (projectileParent == null) projectileParent = transform;
         _spawns = FindObjectsOfType<Spawn>().ToList();
+        _circuitController = GetComponent<CircuitController>();
     }
 
     private bool HasTower(Vector3 pos)
@@ -45,8 +47,12 @@ public class GameController : MonoBehaviour
     public void SetTower(Vector3 pos)
     {
         if (HasTower(pos)) return;
-        Instantiate(_hotBar[_currentHotBarIndex], WorldToGrid(pos), Quaternion.identity);
-        gameField.SetTile(gameField.WorldToCell(pos), gameFieldTile);
+        var instance = Instantiate(hotBar[_currentHotBarIndex], WorldToGrid(pos), Quaternion.identity);
+        var cellPos = WorldToCell(pos);
+        gameField.SetTile(cellPos, gameFieldTile);
+        var component = instance.GetComponent<CircuitComponent>();
+        component.powerGridPos = cellPos;
+        _circuitController.AddComponent(component, cellPos);
     }
     
     public void UpdateSilhouette(Vector3 pos)
@@ -69,7 +75,7 @@ public class GameController : MonoBehaviour
     private void MoveSilhouette(Vector3 pos) => _silhouette.transform.position = WorldToGrid(pos);
     private void CreateSilhouette(Vector3 pos)
     {
-        _silhouette = Instantiate(_hotBar[_currentHotBarIndex], WorldToGrid(pos), Quaternion.identity);
+        _silhouette = Instantiate(hotBar[_currentHotBarIndex], WorldToGrid(pos), Quaternion.identity);
         foreach (var sr in _silhouette.GetComponentsInChildren<SpriteRenderer>())
         {
             var color = Color.black;

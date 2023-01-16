@@ -8,7 +8,7 @@ public class Turret : Consumer
 {
     private GameController _gameController;
     
-    [SerializeField, Min(0)] private float attackRate = 1; 
+    [SerializeField, Min(0)] private float operatingRate = 1;
 
     private enum Target
     {
@@ -34,30 +34,28 @@ public class Turret : Consumer
     {
         _gameController = GameObject.FindWithTag("GameController").GetComponent<GameController>();
         _animator = GetComponent<Animator>();
-        _animator.speed = attackRate;
+        _animator.speed = operatingRate;
         _targets = new List<Transform>();
         _range = GetComponent<CircleCollider2D>().radius;
     }
-    protected override void Update()
+    protected void Update()
     {
-        base.Update();
-
-        if (_isAttacking) return;
+        if (!isOn || _isAttacking) return;
         Aim();
+        if (IsCoolingDown) return;
+        Attack();
     }
 
-    protected override void Consume()
+    private void Attack()
     {
-        if (_isAttacking || ReferenceEquals(_currentTarget, null)) return;
+        if (!isOn || IsCoolingDown || _isAttacking || ReferenceEquals(_currentTarget, null)) return;
         
-        base.Consume();
-        _animator.SetTrigger("Shoot");
+        _animator.SetTrigger("Attack");
     }
-
-    private void Idle()
+    protected override void Idle()
     {
         _isAttacking = false;
-        StartCooldown();
+        base.Idle();
     }
     private void Aim()
     {
@@ -65,15 +63,16 @@ public class Turret : Consumer
         if (ReferenceEquals(_currentTarget, null)) return;
         towerHead.up = (_currentTarget.position - towerHead.position).normalized;
     }
-    private void Attack()
+    private void Shoot()
     {
         if (_currentTarget == null) return;
         _isAttacking = true;
+        var towerHeadPos = towerHead.position;
         var instance = Instantiate(
-            projectile, towerHead.position, Quaternion.identity, _gameController.projectileParent);
+            projectile, towerHeadPos, Quaternion.identity, _gameController.projectileParent);
         var behaviour = instance.GetComponent<Projectile>();
         behaviour.targetPosition = 
-            towerHead.position + _range * (_currentTarget.position - towerHead.position).normalized;
+            towerHeadPos + _range * (_currentTarget.position - towerHeadPos).normalized;
     }
 
     private Transform GetTarget()
@@ -103,6 +102,7 @@ public class Turret : Consumer
     {
         return _targets.OrderBy(x => Vector3.Distance(towerHead.position, x.position)).LastOrDefault();
     }
+    
     private void OnTriggerEnter2D(Collider2D col)
     {
         _targets.Add(col.transform);

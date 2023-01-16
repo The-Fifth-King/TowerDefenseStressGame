@@ -13,7 +13,12 @@ public class Spawn : MonoBehaviour
     [SerializeField] private int countOfEnemiesToSpawn;
     [SerializeField] private List<GameObject> spawnLoop;
     [SerializeField] private List<DistinctSpawn> distinctSpawn;
-
+    [Serializable] private class DistinctSpawn
+    {
+        [Min(0)] public int spawnIndex;
+        public GameObject enemy;
+    }
+    
     private void Awake()
     {
         _gameController = GameObject.FindWithTag("GameController").GetComponent<GameController>();
@@ -40,18 +45,10 @@ public class Spawn : MonoBehaviour
             SpawnEnemy(spawnLoop[countOfEnemiesToSpawn % spawnLoop.Count]);
         }
     }
-
     private void SpawnEnemy(GameObject enemy)
     {
         var instance = Instantiate(enemy, transform.position, Quaternion.identity, _gameController.enemyParent);
         instance.GetComponent<Enemy>().wayPoints = ConvertCellsToWayPoints();
-    }
-
-    [Serializable]
-    private class DistinctSpawn
-    {
-        [Min(0)] public int spawnIndex;
-        public GameObject enemy;
     }
 
     private List<Vector3> ConvertCellsToWayPoints()

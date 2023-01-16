@@ -77,8 +77,8 @@ SpriteMask:
   m_MaskAlphaCutoff: 0.2
   m_FrontSortingLayerID: -1856513683
   m_BackSortingLayerID: -1856513683
-  m_FrontSortingLayer: 1
-  m_BackSortingLayer: 1
+  m_FrontSortingLayer: 2
+  m_BackSortingLayer: 2
   m_FrontSortingOrder: 0
   m_BackSortingOrder: -1
   m_IsCustomRangeActive: 1
@@ -187,7 +187,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1856513683
-  m_SortingLayer: 1
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 2747690628134850419, guid: b2d29581052960e47a2dd07a772674f2, type: 3}
   m_Color: {r: 0, g: 0, b: 0, a: 1}

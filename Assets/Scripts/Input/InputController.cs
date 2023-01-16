@@ -11,11 +11,10 @@ public class InputController : MonoBehaviour
 
     private PlayerInput _input;
     private InputAction _interact, _pointer, _hotBarScroll, _startWave;
-
     
     private Vector3 _mousePos;
-    
     private GameObject _silhouette;
+    
     private void Awake()
     {
         _gameController = GetComponent<GameController>();
@@ -32,7 +31,6 @@ public class InputController : MonoBehaviour
             _mousePos, Vector2.zero, 0, 1 << LayerMask.NameToLayer("Interactable"));
         if (hit)
         {
-            Debug.Log(hit.collider.gameObject.layer);
             hit.transform.GetComponent<IInteractable>()?.Interact();
         }
         else
