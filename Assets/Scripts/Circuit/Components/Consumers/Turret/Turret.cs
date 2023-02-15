@@ -7,6 +7,7 @@ using UnityEngine;
 public class Turret : Consumer
 {
     private GameController _gameController;
+    private Transform _projectileParent;
     
     [SerializeField, Min(0)] private float operatingRate = 1;
 
@@ -33,6 +34,7 @@ public class Turret : Consumer
     private void Awake()
     {
         _gameController = GameObject.FindWithTag("GameController").GetComponent<GameController>();
+        _projectileParent = GameObject.FindWithTag("EntityController").transform.Find("Projectiles");
         _animator = GetComponent<Animator>();
         _animator.speed = operatingRate;
         _targets = new List<Transform>();
@@ -69,7 +71,7 @@ public class Turret : Consumer
         _isAttacking = true;
         var towerHeadPos = towerHead.position;
         var instance = Instantiate(
-            projectile, towerHeadPos, Quaternion.identity, _gameController.projectileParent);
+            projectile, towerHeadPos, Quaternion.identity, _projectileParent);
         var behaviour = instance.GetComponent<Projectile>();
         behaviour.targetPosition = 
             towerHeadPos + _range * (_currentTarget.position - towerHeadPos).normalized;

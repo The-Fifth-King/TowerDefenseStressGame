@@ -4,7 +4,7 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Spawn
+  - EntityController
   layers:
   - Default
   - TransparentFX
@@ -39,6 +39,9 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Background
+    uniqueID: 2904754713
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0
@@ -53,4 +56,7 @@ TagManager:
     locked: 0
   - name: TowerTop
     uniqueID: 2183765039
+    locked: 0
+  - name: UI
+    uniqueID: 315786415
     locked: 0

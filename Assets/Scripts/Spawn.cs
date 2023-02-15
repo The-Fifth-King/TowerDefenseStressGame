@@ -9,6 +9,8 @@ public class Spawn : MonoBehaviour
     private GameController _gameController;
     private LineRenderer _lineRenderer;
     
+    private Transform _enemyParent;
+
     [SerializeField] private List<Vector3Int> cellsToTraverse;
     [SerializeField] private int countOfEnemiesToSpawn;
     [SerializeField] private List<GameObject> spawnLoop;
@@ -27,7 +29,10 @@ public class Spawn : MonoBehaviour
         _lineRenderer.positionCount = wayPoints.Length;
         _lineRenderer.SetPositions(wayPoints);
         _lineRenderer.SetPosition(0, _gameController.WorldToGrid(transform.position));
-        _lineRenderer.SetPosition(_lineRenderer.positionCount - 1, _gameController.WorldToGrid(_gameController.transform.position));
+        _lineRenderer.SetPosition(_lineRenderer.positionCount - 1, 
+            _gameController.WorldToGrid(GameObject.FindWithTag("Finish").transform.position));
+
+        _enemyParent = GameObject.FindWithTag("EntityController").transform.Find("Enemies");
     }
 
     public void SpawnWave()
@@ -47,7 +52,7 @@ public class Spawn : MonoBehaviour
     }
     private void SpawnEnemy(GameObject enemy)
     {
-        var instance = Instantiate(enemy, transform.position, Quaternion.identity, _gameController.enemyParent);
+        var instance = Instantiate(enemy, transform.position, Quaternion.identity, _enemyParent);
         instance.GetComponent<Enemy>().wayPoints = ConvertCellsToWayPoints();
     }
 

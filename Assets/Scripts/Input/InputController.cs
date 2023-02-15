@@ -35,7 +35,7 @@ public class InputController : MonoBehaviour
         }
         else
         {
-            _gameController.SetTower(_mousePos);
+            _gameController.PlaceCircuitComponent(_mousePos);
         }
     }
     private void PointerHandler(InputAction.CallbackContext context)

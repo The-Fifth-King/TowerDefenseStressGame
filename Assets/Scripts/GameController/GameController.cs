@@ -21,43 +21,47 @@ public class GameController : MonoBehaviour
             var clampedValue = Mathf.Clamp(value, 0, hotBar.Length - 1);
             if (clampedValue == CurrentHotBarIndex || _silhouette == null) return;
             _currentHotBarIndex = clampedValue;
+            HotbarIndexChanged?.Invoke(_currentHotBarIndex);
             var pos = _silhouette.transform.position;
             Destroy(_silhouette);
             CreateSilhouette(pos);
         }
     }
-    
-    public Transform projectileParent;
-    public Transform enemyParent;
+    public event Action<int> HotbarIndexChanged;
 
     private List<Spawn> _spawns;
-
+    
     private CircuitController _circuitController;
+    private Transform _circuitComponents;
     
     private void Awake()
     {
         _spawns = FindObjectsOfType<Spawn>().ToList();
         _circuitController = GetComponent<CircuitController>();
+        _circuitComponents = GameObject.FindWithTag("EntityController").transform.Find("CircuitComponents");
     }
 
-    private bool HasTower(Vector3 pos)
+    private bool IsSpaceFilled(Vector3 pos)
     {
         return gameField.HasTile(WorldToCell(pos));
     }
-    public void SetTower(Vector3 pos)
+    public void PlaceCircuitComponent(Vector3 pos)
     {
-        if (HasTower(pos)) return;
-        var instance = Instantiate(hotBar[_currentHotBarIndex], WorldToGrid(pos), Quaternion.identity);
+        if (IsSpaceFilled(pos)) return;
+        
         var cellPos = WorldToCell(pos);
         gameField.SetTile(cellPos, gameFieldTile);
-        var component = instance.GetComponent<CircuitComponent>();
+        var circuitComponent = 
+            Instantiate(hotBar[_currentHotBarIndex], WorldToGrid(pos), Quaternion.identity, _circuitComponents);
+
+        var component = circuitComponent.GetComponent<CircuitComponent>();
         component.powerGridPos = cellPos;
         _circuitController.AddComponent(component, cellPos);
     }
-    
+
     public void UpdateSilhouette(Vector3 pos)
     {
-        if (HasTower(pos))
+        if (IsSpaceFilled(pos))
         {
             DestroySilhouette();
             return;

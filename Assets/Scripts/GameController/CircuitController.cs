@@ -32,8 +32,16 @@ public class CircuitController : MonoBehaviour
         var powerGridData = new PowerGridData();
         powerGridData.component = component;
         powerGridData.gridPos = gridPos;
-        
+
         var neighbours = FindNeighbours(gridPos);
+        if (component is not Wire) neighbours.RemoveAll(x => x.component is not Wire);
+        foreach (var neighbour in neighbours)
+        {
+            if(component is Wire wire) wire.AddConnection(GetNeighbourConnectionMaskBit(gridPos, neighbour.gridPos));
+            if (neighbour.component is Wire neighbourWire) 
+                neighbourWire.AddConnection(GetNeighbourConnectionMaskBit(neighbour.gridPos, gridPos));
+        }
+        
         if (neighbours.Count == 0)
         {
             var circuitIndex = FindLowestFreeCircuitIndex();
@@ -86,14 +94,38 @@ public class CircuitController : MonoBehaviour
 
         return _powerGridData.FindAll(x => relativeNeighbourPos.Contains(x.gridPos));
     }
-    private int FindLowestFreeCircuitIndex()
+    private static int GetNeighbourConnectionMaskBit(Vector3Int pos, Vector3Int neighbour)
     {
-        var i = 0;
-        foreach (var entry in _powerGridData.Where(entry => entry.circuitIndex == i))
+        var relativeNeighbourPos = new List<Vector3Int>
         {
-            i++;
+            pos + Vector3Int.right,
+            pos + (pos.y % 2 == 0? Vector3Int.up : new Vector3Int(1, 1)),
+            pos + (pos.y % 2 == 0? new Vector3Int(-1, 1) : Vector3Int.up),
+            pos + Vector3Int.left,
+            pos + (pos.y % 2 == 0? new Vector3Int(-1, -1) : Vector3Int.down),
+            pos + (pos.y % 2 == 0? Vector3Int.down : new Vector3Int(1, -1)),
+        };
+
+        for (var i = 0; i < relativeNeighbourPos.Count; i++)
+        {
+            if (relativeNeighbourPos[i].Equals(neighbour))
+            {
+                return 1 << i;
+            }
         }
 
-        return i;
+        return -1;
+    }
+    private int FindLowestFreeCircuitIndex()
+    {
+        var result = 0;
+        for (var i = 0; i < _powerGridData.Count; i++)
+        {
+            if (_powerGridData[i].circuitIndex != result) continue;
+            result++;
+            i = 0;
+        }
+
+        return result;
     }
 }
