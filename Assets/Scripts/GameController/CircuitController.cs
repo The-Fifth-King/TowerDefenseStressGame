@@ -61,16 +61,17 @@ public class CircuitController : MonoBehaviour
                 .Select(x => x.circuitIndex)
                 .Where(x => x != mergedCircuitIndex)
                 .Distinct().ToList();
-
+            
             _powerGridData.ForEach(x =>
             {
                 if (circuitsIndicesToMerge.Contains(x.circuitIndex)) x.circuitIndex = mergedCircuitIndex;
             });
-
-            foreach (var toMerge in circuitsIndicesToMerge)
+            
+            for(var i = 0; i < circuitsIndicesToMerge.Count; i++)
             {
-                _circuits[mergedCircuitIndex].Merge(_circuits[toMerge]);
-                _circuits.RemoveAt(toMerge);
+                _circuits[mergedCircuitIndex].Merge(_circuits[circuitsIndicesToMerge[i]]);
+                _circuits.RemoveAt(circuitsIndicesToMerge[i]);
+                for (var j = i + 1; j < circuitsIndicesToMerge.Count; j++) circuitsIndicesToMerge[j] -= 1;
             }
 
             powerGridData.circuitIndex = mergedCircuitIndex;
