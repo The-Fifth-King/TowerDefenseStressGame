@@ -37,6 +37,15 @@ public partial class @Input : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""Delete"",
+                    ""type"": ""Button"",
+                    ""id"": ""eb53b492-acf0-4438-a6a0-670eb8073e29"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""Pointer"",
                     ""type"": ""PassThrough"",
                     ""id"": ""88501bdf-9085-4f3d-b9ef-3d2634f19335"",
@@ -130,6 +139,17 @@ public partial class @Input : IInputActionCollection2, IDisposable
                     ""action"": ""StartWave"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c0035a07-89f9-44ae-91ce-86e5642535ac"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Delete"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -139,6 +159,7 @@ public partial class @Input : IInputActionCollection2, IDisposable
         // Ingame
         m_Ingame = asset.FindActionMap("Ingame", throwIfNotFound: true);
         m_Ingame_Interact = m_Ingame.FindAction("Interact", throwIfNotFound: true);
+        m_Ingame_Delete = m_Ingame.FindAction("Delete", throwIfNotFound: true);
         m_Ingame_Pointer = m_Ingame.FindAction("Pointer", throwIfNotFound: true);
         m_Ingame_HotBarScroll = m_Ingame.FindAction("HotBarScroll", throwIfNotFound: true);
         m_Ingame_StartWave = m_Ingame.FindAction("StartWave", throwIfNotFound: true);
@@ -202,6 +223,7 @@ public partial class @Input : IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Ingame;
     private IIngameActions m_IngameActionsCallbackInterface;
     private readonly InputAction m_Ingame_Interact;
+    private readonly InputAction m_Ingame_Delete;
     private readonly InputAction m_Ingame_Pointer;
     private readonly InputAction m_Ingame_HotBarScroll;
     private readonly InputAction m_Ingame_StartWave;
@@ -210,6 +232,7 @@ public partial class @Input : IInputActionCollection2, IDisposable
         private @Input m_Wrapper;
         public IngameActions(@Input wrapper) { m_Wrapper = wrapper; }
         public InputAction @Interact => m_Wrapper.m_Ingame_Interact;
+        public InputAction @Delete => m_Wrapper.m_Ingame_Delete;
         public InputAction @Pointer => m_Wrapper.m_Ingame_Pointer;
         public InputAction @HotBarScroll => m_Wrapper.m_Ingame_HotBarScroll;
         public InputAction @StartWave => m_Wrapper.m_Ingame_StartWave;
@@ -225,6 +248,9 @@ public partial class @Input : IInputActionCollection2, IDisposable
                 @Interact.started -= m_Wrapper.m_IngameActionsCallbackInterface.OnInteract;
                 @Interact.performed -= m_Wrapper.m_IngameActionsCallbackInterface.OnInteract;
                 @Interact.canceled -= m_Wrapper.m_IngameActionsCallbackInterface.OnInteract;
+                @Delete.started -= m_Wrapper.m_IngameActionsCallbackInterface.OnDelete;
+                @Delete.performed -= m_Wrapper.m_IngameActionsCallbackInterface.OnDelete;
+                @Delete.canceled -= m_Wrapper.m_IngameActionsCallbackInterface.OnDelete;
                 @Pointer.started -= m_Wrapper.m_IngameActionsCallbackInterface.OnPointer;
                 @Pointer.performed -= m_Wrapper.m_IngameActionsCallbackInterface.OnPointer;
                 @Pointer.canceled -= m_Wrapper.m_IngameActionsCallbackInterface.OnPointer;
@@ -241,6 +267,9 @@ public partial class @Input : IInputActionCollection2, IDisposable
                 @Interact.started += instance.OnInteract;
                 @Interact.performed += instance.OnInteract;
                 @Interact.canceled += instance.OnInteract;
+                @Delete.started += instance.OnDelete;
+                @Delete.performed += instance.OnDelete;
+                @Delete.canceled += instance.OnDelete;
                 @Pointer.started += instance.OnPointer;
                 @Pointer.performed += instance.OnPointer;
                 @Pointer.canceled += instance.OnPointer;
@@ -257,6 +286,7 @@ public partial class @Input : IInputActionCollection2, IDisposable
     public interface IIngameActions
     {
         void OnInteract(InputAction.CallbackContext context);
+        void OnDelete(InputAction.CallbackContext context);
         void OnPointer(InputAction.CallbackContext context);
         void OnHotBarScroll(InputAction.CallbackContext context);
         void OnStartWave(InputAction.CallbackContext context);

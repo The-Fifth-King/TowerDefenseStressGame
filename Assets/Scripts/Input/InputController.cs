@@ -10,7 +10,7 @@ public class InputController : MonoBehaviour
     private GameController _gameController;
 
     private PlayerInput _input;
-    private InputAction _interact, _pointer, _hotBarScroll, _startWave;
+    private InputAction _interact, _delete, _pointer, _hotBarScroll, _startWave;
     
     private Vector3 _mousePos;
     private GameObject _silhouette;
@@ -20,6 +20,7 @@ public class InputController : MonoBehaviour
         _gameController = GetComponent<GameController>();
         _input = GetComponent<PlayerInput>();
         _interact = _input.currentActionMap.FindAction("Interact");
+        _delete = _input.currentActionMap.FindAction("Delete");
         _pointer = _input.currentActionMap.FindAction("Pointer");
         _hotBarScroll = _input.currentActionMap.FindAction("HotBarScroll");
         _startWave = _input.currentActionMap.FindAction("StartWave");
@@ -27,15 +28,28 @@ public class InputController : MonoBehaviour
     
     private void InteractHandler(InputAction.CallbackContext context)
     {
+        ClickHelper(true);
+    }
+    private void DeleteHandler(InputAction.CallbackContext context)
+    {
+        ClickHelper(false);
+    }
+
+    private void ClickHelper(bool interacted)
+    {
         var hit = Physics2D.Raycast(
             _mousePos, Vector2.zero, 0, 1 << LayerMask.NameToLayer("Interactable"));
-        if (hit)
+        if (hit && interacted)
         {
             hit.transform.GetComponent<IInteractable>()?.Interact();
         }
-        else
+        else if (interacted)
         {
             _gameController.PlaceCircuitComponent(_mousePos);
+        }
+        else
+        {
+            _gameController.DeleteCircuitComponent(_mousePos);
         }
     }
     private void PointerHandler(InputAction.CallbackContext context)
@@ -66,6 +80,7 @@ public class InputController : MonoBehaviour
         if(value)
         {
             _interact.performed += InteractHandler;
+            _delete.performed += DeleteHandler;
             _pointer.performed += PointerHandler;
             _hotBarScroll.performed += HotBarScrollHandler;
             _startWave.performed += StartWaveHandler;
@@ -73,6 +88,7 @@ public class InputController : MonoBehaviour
         else
         {
             _interact.performed -= InteractHandler;
+            _delete.performed -= DeleteHandler;
             _pointer.performed -= PointerHandler;
             _hotBarScroll.performed -= HotBarScrollHandler;
             _startWave.performed -= StartWaveHandler;
