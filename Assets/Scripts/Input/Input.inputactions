@@ -15,6 +15,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "Delete",
+                    "type": "Button",
+                    "id": "eb53b492-acf0-4438-a6a0-670eb8073e29",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Pointer",
                     "type": "PassThrough",
                     "id": "88501bdf-9085-4f3d-b9ef-3d2634f19335",
@@ -106,6 +115,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "StartWave",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c0035a07-89f9-44ae-91ce-86e5642535ac",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Delete",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

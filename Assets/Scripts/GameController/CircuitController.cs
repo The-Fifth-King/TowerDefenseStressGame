@@ -80,6 +80,35 @@ public class CircuitController : MonoBehaviour
         
         _powerGridData.Add(powerGridData);
     }
+
+    public void DeleteComponent(Vector3Int gridPos)
+    {
+        PowerGridData current = _powerGridData.Find(x => x.gridPos.Equals(gridPos));
+        CircuitComponent component = current.component;
+        
+        var neighbours = FindNeighbours(gridPos);
+        if (component is not Wire) neighbours.RemoveAll(x => x.component is not Wire);
+        foreach (var neighbour in neighbours)
+        {
+            if(component is Wire wire) wire.RemoveConnection(GetNeighbourConnectionMaskBit(gridPos, neighbour.gridPos));
+            if (neighbour.component is Wire neighbourWire) 
+                neighbourWire.RemoveConnection(GetNeighbourConnectionMaskBit(neighbour.gridPos, gridPos));
+        }
+        if (neighbours.Count == 0)
+        {
+            _circuits[current.circuitIndex].RemoveComponent(component);
+            _circuits.RemoveAt(current.circuitIndex);
+        }
+        else if (neighbours.TrueForAll(x => neighbours[0].circuitIndex == x.circuitIndex))
+        {
+            //todo fix exception
+            _circuits[neighbours[0].circuitIndex].RemoveComponent(component);
+        }
+        //todo finish circuit split logic
+        
+        _powerGridData.Remove(current);
+        Destroy(component.gameObject);
+    }
     
     private List<PowerGridData> FindNeighbours(Vector3Int pos)
     {

@@ -59,6 +59,15 @@ public class GameController : MonoBehaviour
         _circuitController.AddComponent(component, cellPos);
     }
 
+    public void DeleteCircuitComponent(Vector3 pos)
+    {
+        if (!IsSpaceFilled(pos)) return;
+        
+        var cellPos = WorldToCell(pos);
+        _circuitController.DeleteComponent(cellPos);
+        gameField.SetTile(cellPos, null);
+    }
+
     public void UpdateSilhouette(Vector3 pos)
     {
         if (IsSpaceFilled(pos))
