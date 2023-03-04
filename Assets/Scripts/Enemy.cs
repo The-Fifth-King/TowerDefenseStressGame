@@ -13,6 +13,8 @@ public class Enemy : MonoBehaviour
     [HideInInspector] public List<Vector3> wayPoints;
     private int _wayPointIndex;
 
+    public Spawn enemySpawn;
+
     private void Awake()
     {
         _gameController = GameObject.FindWithTag("GameController").GetComponent<GameController>();
@@ -26,7 +28,13 @@ public class Enemy : MonoBehaviour
         if (_wayPointIndex >= wayPoints.Count)
         {
             _gameController.TakeHit();
-            Destroy(gameObject);
+            OnDeath();
         }
+    }
+
+    private void OnDeath()
+    {
+        enemySpawn.EnemyDied(this.gameObject);
+        Destroy(gameObject);
     }
 }

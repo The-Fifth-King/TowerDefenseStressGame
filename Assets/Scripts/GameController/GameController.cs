@@ -29,14 +29,14 @@ public class GameController : MonoBehaviour
     }
     public event Action<int> HotbarIndexChanged;
 
-    private List<Spawn> _spawns;
+    private Spawn _spawn;
     
     private CircuitController _circuitController;
     private Transform _circuitComponents;
     
     private void Awake()
     {
-        _spawns = FindObjectsOfType<Spawn>().ToList();
+        _spawn = FindObjectOfType<Spawn>();
         _circuitController = GetComponent<CircuitController>();
         _circuitComponents = GameObject.FindWithTag("EntityController").transform.Find("CircuitComponents");
     }
@@ -100,7 +100,7 @@ public class GameController : MonoBehaviour
 
     public void SpawnWave()
     {
-        _spawns.ForEach(x => x.SpawnWave());
+        StartCoroutine(_spawn.SpawnWave());
     }
     public void TakeHit() 
     { 
