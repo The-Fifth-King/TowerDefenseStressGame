@@ -56,6 +56,7 @@ public class GameController : MonoBehaviour
 
         var component = circuitComponent.GetComponent<CircuitComponent>();
         component.powerGridPos = cellPos;
+        component.placedByPlayer = true;
         _circuitController.AddComponent(component, cellPos);
     }
 

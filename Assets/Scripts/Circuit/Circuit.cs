@@ -9,6 +9,7 @@ public class Circuit
     private List<Generator> _generators;
     private List<Consumer> _consumers;
     private List<CircuitComponent> _wires;
+   // private List<CircuitComponent> _allCircuitsComponents;
     
     public Circuit()
     {
@@ -28,6 +29,7 @@ public class Circuit
 
     public void AddComponent(CircuitComponent component)
     {
+       // _allCircuitsComponents.Add(component);
         switch (component)
         {
             case Generator g:

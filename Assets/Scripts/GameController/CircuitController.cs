@@ -8,7 +8,7 @@ using UnityEngine.Tilemaps;
 public class CircuitController : MonoBehaviour
 {
     private List<PowerGridData> _powerGridData;
-    private List<Circuit> _circuits;
+    private Dictionary<int, Circuit> _circuits;
 
     private class PowerGridData
     {
@@ -20,11 +20,15 @@ public class CircuitController : MonoBehaviour
     private void Awake()
     {
         _powerGridData = new List<PowerGridData>();
-        _circuits = new List<Circuit>();
+        _circuits = new Dictionary<int, Circuit>();
     }
     private void Update()
     {
-        _circuits.ForEach(x => x.CalculatePower());
+
+        foreach (var circuit in _circuits.Values)
+        {
+            circuit.CalculatePower();
+        }
     }
 
     public void AddComponent(CircuitComponent component, Vector3Int gridPos)
@@ -46,7 +50,7 @@ public class CircuitController : MonoBehaviour
         {
             var circuitIndex = FindLowestFreeCircuitIndex();
             powerGridData.circuitIndex = circuitIndex;
-            _circuits.Add(new Circuit());
+            _circuits.Add(circuitIndex, new Circuit());
             _circuits[circuitIndex].AddComponent(component);
         }
         else if (neighbours.TrueForAll(x => neighbours[0].circuitIndex == x.circuitIndex))
@@ -70,8 +74,7 @@ public class CircuitController : MonoBehaviour
             for(var i = 0; i < circuitsIndicesToMerge.Count; i++)
             {
                 _circuits[mergedCircuitIndex].Merge(_circuits[circuitsIndicesToMerge[i]]);
-                _circuits.RemoveAt(circuitsIndicesToMerge[i]);
-                for (var j = i + 1; j < circuitsIndicesToMerge.Count; j++) circuitsIndicesToMerge[j] -= 1;
+                _circuits.Remove(circuitsIndicesToMerge[i]);
             }
 
             powerGridData.circuitIndex = mergedCircuitIndex;
@@ -86,23 +89,54 @@ public class CircuitController : MonoBehaviour
         PowerGridData current = _powerGridData.Find(x => x.gridPos.Equals(gridPos));
         CircuitComponent component = current.component;
         
+        if (!component.placedByPlayer) return;
+
         var neighbours = FindNeighbours(gridPos);
         if (component is not Wire) neighbours.RemoveAll(x => x.component is not Wire);
+        
+        //deletion of wire masks
         foreach (var neighbour in neighbours)
         {
             if(component is Wire wire) wire.RemoveConnection(GetNeighbourConnectionMaskBit(gridPos, neighbour.gridPos));
             if (neighbour.component is Wire neighbourWire) 
                 neighbourWire.RemoveConnection(GetNeighbourConnectionMaskBit(neighbour.gridPos, gridPos));
         }
+        
+        //deletion of circuit containing only current component
         if (neighbours.Count == 0)
         {
-            _circuits[current.circuitIndex].RemoveComponent(component);
-            _circuits.RemoveAt(current.circuitIndex);
+            //_circuits[current.circuitIndex].RemoveComponent(component);
+            _circuits.Remove(current.circuitIndex);
         }
+        //removing component from circuit in the case the circuit still stays connected through other components
         else if (neighbours.TrueForAll(x => neighbours[0].circuitIndex == x.circuitIndex))
         {
-            //todo fix exception
+            //var currentIndex = current.circuitIndex;
+
+            //List<List<CircuitComponent>> otherwiseConnectedNeighbours = new List<List<CircuitComponent>>();
+
+
+            /*for (var i = 0; i < neighbours.Count - 1; i++)
+            {
+                for (var j = 0; j < neighbours.Count - 1; j++)
+                {
+                    if (neighbours[i] != neighbours[j] && FindNeighbours(neighbours[i].gridPos).Contains(neighbours[j]))
+                    {
+                        //otherwiseConnectedNeighbours.Add();
+                    }
+                }
+            }
+            {
+                //if (FindNeighbours(neighbours[i].gridPos).Contains())
+            }*/
+            
+            
             _circuits[neighbours[0].circuitIndex].RemoveComponent(component);
+        }
+        //splitting multiple circuits
+        else
+        {
+            
         }
         //todo finish circuit split logic
         

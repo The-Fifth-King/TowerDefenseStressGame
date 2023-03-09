@@ -6,4 +6,5 @@ using UnityEngine;
 public class CircuitComponent : MonoBehaviour
 {
     [HideInInspector] public Vector3Int powerGridPos;
+    [HideInInspector] public bool placedByPlayer = false;
 }
