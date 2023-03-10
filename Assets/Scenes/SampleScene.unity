@@ -4049,7 +4049,7 @@ PrefabInstance:
       objectReference: {fileID: 397162903}
     - target: {fileID: 8582075093126328575, guid: 68ae57925427af74bb1e7306f185ac6f, type: 3}
       propertyPath: hotBar.Array.size
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 8582075093126328575, guid: 68ae57925427af74bb1e7306f185ac6f, type: 3}
       propertyPath: hotBar.Array.data[0]
@@ -4063,6 +4063,10 @@ PrefabInstance:
       propertyPath: hotBar.Array.data[2]
       value: 
       objectReference: {fileID: 256129081466995534, guid: d6661b6e2e7b9e949b0d1693b4a5850e, type: 3}
+    - target: {fileID: 8582075093126328575, guid: 68ae57925427af74bb1e7306f185ac6f, type: 3}
+      propertyPath: hotBar.Array.data[3]
+      value: 
+      objectReference: {fileID: 256129081466995534, guid: 007d0bc2ced7f3a41b94bab405f90028, type: 3}
     - target: {fileID: 8582075093126328575, guid: 68ae57925427af74bb1e7306f185ac6f, type: 3}
       propertyPath: _wireVariations.Array.size
       value: 3

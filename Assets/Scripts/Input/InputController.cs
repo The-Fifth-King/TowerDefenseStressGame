@@ -11,6 +11,7 @@ public class InputController : MonoBehaviour
 
     private PlayerInput _input;
     private InputAction _interact, _delete, _pointer, _hotBarScroll, _startWave;
+    private RaycastHit2D _hit;
     
     private Vector3 _mousePos;
     private GameObject _silhouette;
@@ -30,6 +31,12 @@ public class InputController : MonoBehaviour
     {
         ClickHelper(true);
     }
+    private void ReleaseHandler(InputAction.CallbackContext context)
+    {
+        if (!_hit) return;
+        _hit.transform.GetComponentInParent<IInteractable>()?.Release();
+    }
+    
     private void DeleteHandler(InputAction.CallbackContext context)
     {
         ClickHelper(false);
@@ -37,11 +44,11 @@ public class InputController : MonoBehaviour
 
     private void ClickHelper(bool interacted)
     {
-        var hit = Physics2D.Raycast(
+        _hit = Physics2D.Raycast(
             _mousePos, Vector2.zero, 0, 1 << LayerMask.NameToLayer("Interactable"));
-        if (hit && interacted)
+        if (_hit && interacted)
         {
-            hit.transform.GetComponent<IInteractable>()?.Interact();
+            _hit.transform.GetComponentInParent<IInteractable>()?.Interact();
         }
         else if (interacted)
         {
@@ -80,6 +87,7 @@ public class InputController : MonoBehaviour
         if(value)
         {
             _interact.performed += InteractHandler;
+            _interact.canceled += ReleaseHandler;
             _delete.performed += DeleteHandler;
             _pointer.performed += PointerHandler;
             _hotBarScroll.performed += HotBarScrollHandler;
@@ -88,6 +96,7 @@ public class InputController : MonoBehaviour
         else
         {
             _interact.performed -= InteractHandler;
+            _interact.canceled -= ReleaseHandler;
             _delete.performed -= DeleteHandler;
             _pointer.performed -= PointerHandler;
             _hotBarScroll.performed -= HotBarScrollHandler;
