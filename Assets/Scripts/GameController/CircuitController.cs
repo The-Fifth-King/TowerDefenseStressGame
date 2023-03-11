@@ -84,14 +84,15 @@ public class CircuitController : MonoBehaviour
         _powerGridData.Add(powerGridData);
     }
 
-    public void DeleteComponent(Vector3Int gridPos)
+    public void DeleteComponent(Vector3Int gridPos, Tilemap gameField)
     {
         PowerGridData current = _powerGridData.Find(x => x.gridPos.Equals(gridPos));
         CircuitComponent component = current.component;
+        int index = current.circuitIndex;
         
         if (!component.placedByPlayer) return;
 
-        var neighbours = FindNeighbours(gridPos);
+       /* var neighbours = FindNeighbours(gridPos);
         if (component is not Wire) neighbours.RemoveAll(x => x.component is not Wire);
         
         //deletion of wire masks
@@ -116,7 +117,7 @@ public class CircuitController : MonoBehaviour
             //List<List<CircuitComponent>> otherwiseConnectedNeighbours = new List<List<CircuitComponent>>();
 
 
-            /*for (var i = 0; i < neighbours.Count - 1; i++)
+            for (var i = 0; i < neighbours.Count - 1; i++)
             {
                 for (var j = 0; j < neighbours.Count - 1; j++)
                 {
@@ -128,20 +129,40 @@ public class CircuitController : MonoBehaviour
             }
             {
                 //if (FindNeighbours(neighbours[i].gridPos).Contains())
-            }*/
+            }
             
             
-            _circuits[neighbours[0].circuitIndex].RemoveComponent(component);
+            //_circuits[neighbours[0].circuitIndex].RemoveComponent(component);
         }
         //splitting multiple circuits
         else
         {
             
+        }*/
+
+        var componentList = _circuits[index].allCircuitsComponents;
+        foreach (var i in componentList)
+        {
+            if (!i.placedByPlayer)
+            {
+                //todo
+                continue;
+            }
+            PowerGridData currentData = _powerGridData.Find(x => x.gridPos.Equals(i.powerGridPos));
+            var currentNeighbours = FindNeighbours(currentData.gridPos);
+            if (component is not Wire) currentNeighbours.RemoveAll(x => x.component is not Wire);
+            foreach (var j in currentNeighbours)
+            {
+                if(i is Wire wire) wire.RemoveConnection(GetNeighbourConnectionMaskBit(currentData.gridPos, j.gridPos));
+            }
+            _powerGridData.Remove(currentData);
+            //Debug.Log(_powerGridData); 
+            //Debug.Log("test");
+            gameField.SetTile(currentData.gridPos, null);
+            Destroy(i.gameObject);
         }
-        //todo finish circuit split logic
-        
-        _powerGridData.Remove(current);
-        Destroy(component.gameObject);
+
+        _circuits.Remove(index);
     }
     
     private List<PowerGridData> FindNeighbours(Vector3Int pos)
@@ -158,7 +179,7 @@ public class CircuitController : MonoBehaviour
 
         return _powerGridData.FindAll(x => relativeNeighbourPos.Contains(x.gridPos));
     }
-    private static int GetNeighbourConnectionMaskBit(Vector3Int pos, Vector3Int neighbour)
+    public static int GetNeighbourConnectionMaskBit(Vector3Int pos, Vector3Int neighbour)
     {
         var relativeNeighbourPos = new List<Vector3Int>
         {

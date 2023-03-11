@@ -65,20 +65,21 @@ public class GameController : MonoBehaviour
         if (!IsSpaceFilled(pos)) return;
         
         var cellPos = WorldToCell(pos);
-        _circuitController.DeleteComponent(cellPos);
-        gameField.SetTile(cellPos, null);
+        _circuitController.DeleteComponent(cellPos, gameField);
     }
 
     public void UpdateSilhouette(Vector3 pos)
     {
         if (IsSpaceFilled(pos))
         {
+            //Debug.Log("space filled");
             DestroySilhouette();
             return;
         }
         
         if (_silhouette == null)
         {
+            //Debug.Log("silhouette null");
             CreateSilhouette(pos);
         }
         else

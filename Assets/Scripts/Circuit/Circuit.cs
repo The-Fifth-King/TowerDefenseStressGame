@@ -9,13 +9,14 @@ public class Circuit
     private List<Generator> _generators;
     private List<Consumer> _consumers;
     private List<CircuitComponent> _wires;
-   // private List<CircuitComponent> _allCircuitsComponents;
+    public List<CircuitComponent> allCircuitsComponents;
     
     public Circuit()
     {
         _generators = new List<Generator>();
         _consumers = new List<Consumer>();
         _wires = new List<CircuitComponent>();
+        allCircuitsComponents = new List<CircuitComponent>();
     }
     
     public void CalculatePower()
@@ -29,7 +30,7 @@ public class Circuit
 
     public void AddComponent(CircuitComponent component)
     {
-       // _allCircuitsComponents.Add(component);
+        allCircuitsComponents.Add(component);
         switch (component)
         {
             case Generator g:
@@ -67,7 +68,8 @@ public class Circuit
         }
     }
 
-    public void Split(Circuit toSplit)
+    //todo for itch
+     public void Split(Circuit toSplit)
     {
         //todo
     }
