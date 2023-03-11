@@ -22,9 +22,8 @@ public class CircuitController : MonoBehaviour
         _powerGridData = new List<PowerGridData>();
         _circuits = new Dictionary<int, Circuit>();
     }
-    private void Update()
+    private void FixedUpdate()
     {
-
         foreach (var circuit in _circuits.Values)
         {
             circuit.CalculatePower();
