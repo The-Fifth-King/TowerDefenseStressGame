@@ -50,6 +50,7 @@ public class Circuit
         _generators.AddRange(toAbsorb._generators);
         _consumers.AddRange(toAbsorb._consumers);
         _wires.AddRange(toAbsorb._wires);
+        allCircuitsComponents.AddRange(toAbsorb.allCircuitsComponents);
     }
 
     public void RemoveComponent(CircuitComponent component)
