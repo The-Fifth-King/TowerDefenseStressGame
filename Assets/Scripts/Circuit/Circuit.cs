@@ -10,15 +10,13 @@ public class Circuit
     private List<Consumer> _consumers;
     private List<CircuitComponent> _wires;
     private List<Battery> _batteries;
-    public List<CircuitComponent> allCircuitsComponents;
-    
+
     public Circuit()
     {
         _generators = new List<Generator>();
         _consumers = new List<Consumer>();
         _wires = new List<CircuitComponent>();
         _batteries = new List<Battery>();
-        allCircuitsComponents = new List<CircuitComponent>();
     }
     
     public void CalculatePower()
@@ -44,7 +42,6 @@ public class Circuit
 
     public void AddComponent(CircuitComponent component)
     {
-        allCircuitsComponents.Add(component);
         switch (component)
         {
             case Generator g:
@@ -70,7 +67,6 @@ public class Circuit
         _consumers.AddRange(toAbsorb._consumers);
         _wires.AddRange(toAbsorb._wires);
         _batteries.AddRange(toAbsorb._batteries);
-        allCircuitsComponents.AddRange(toAbsorb.allCircuitsComponents);
     }
 
     public void RemoveComponent(CircuitComponent component)
@@ -97,4 +93,14 @@ public class Circuit
     {
         //todo
     }
+
+     public List<CircuitComponent> GetAllComponents()
+     {
+         var toReturn = new List<CircuitComponent>();
+         toReturn.AddRange(_generators);
+         toReturn.AddRange(_consumers);
+         toReturn.AddRange(_batteries);
+         toReturn.AddRange(_wires);
+         return toReturn;
+     }
 }
