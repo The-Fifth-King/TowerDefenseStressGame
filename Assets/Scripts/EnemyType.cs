@@ -1,8 +1,8 @@
 using System;
 using UnityEngine;
 
-[Serializable]
-public class EnemyType
-{
-    
-}
+// [Serializable]
+// public class EnemyType
+// {
+//
+// }

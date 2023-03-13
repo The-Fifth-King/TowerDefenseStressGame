@@ -1,5 +1,3 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using Unity.Collections;
 using Unity.VisualScripting;
@@ -19,8 +17,10 @@ public class Enemy : MonoBehaviour
     [SerializeField] private int goldDrop;
     [SerializeField] private float moveSpeed;
     [SerializeField] private int hp;
-    [SerializeField] public int spawnCost;
-    [SerializeField] public float spawnTime;
+    public int spawnCost;
+    public float spawnTime;
+    public int damage;
+
 
     public void init(Spawn enemySpawn, List<Vector3> wayPoints)
     {
@@ -40,7 +40,7 @@ public class Enemy : MonoBehaviour
         if(transform.position == wayPoints[_wayPointIndex]) _wayPointIndex++;
         if (_wayPointIndex >= wayPoints.Count)
         {
-            _gameController.TakeHit();
+            _gameController.TakeHit(damage);
             OnDeath();
         }
     }
