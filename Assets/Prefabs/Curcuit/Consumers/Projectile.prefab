@@ -138,6 +138,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 10
+  damage: 1
   targetPosition: {x: 0, y: 0, z: 0}
 --- !u!1 &8885899896343257304
 GameObject:

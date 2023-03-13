@@ -137,6 +137,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1422972fd8c157c48a39738595d79425, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  goldDrop: 5
+  moveSpeed: 0.5
+  hp: 3
+  spawnCost: 3
+  spawnTime: 1
+  damage: 2
 --- !u!1 &8679076414195619862
 GameObject:
   m_ObjectHideFlags: 0

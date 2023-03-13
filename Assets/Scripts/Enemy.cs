@@ -5,8 +5,6 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    public static Dictionary<string, EnemyType> EnemyTypes;
-
     private GameController _gameController;
 
     private List<Vector3> wayPoints;
@@ -14,6 +12,7 @@ public class Enemy : MonoBehaviour
 
     private Spawn enemySpawn;
     
+    //sind alles eigentlich nur CONST bis auf hp, aber serialize sonst nicht
     [SerializeField] private int goldDrop;
     [SerializeField] private float moveSpeed;
     [SerializeField] private int hp;

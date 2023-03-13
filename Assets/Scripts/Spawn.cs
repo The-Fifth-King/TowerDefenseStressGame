@@ -60,8 +60,9 @@ public class Spawn : MonoBehaviour
         
         while (tmpWaveDiff > 0)
         {
-            int i = Random.Range(0, possibleEnemies.Count - 1);
+            int i = Random.Range(0, possibleEnemies.Count);
             int cost = possibleEnemies[i].spawnCost;
+            //Debug.Log("i "+ i +" cost and tmpWaveDiff "+ cost + "" + tmpWaveDiff);
             if (cost > tmpWaveDiff)
             {
                 continue;
