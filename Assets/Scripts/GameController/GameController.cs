@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.Tilemaps;
 
 public class GameController : MonoBehaviour
@@ -36,6 +37,7 @@ public class GameController : MonoBehaviour
 
     private bool isBuildingPhase = true;
     [SerializeField] private int money = 20;
+    [SerializeField] private int health = 20;
     
     private void Awake()
     {
@@ -129,11 +131,20 @@ public class GameController : MonoBehaviour
         isBuildingPhase = false;
         StartCoroutine(_spawn.SpawnWave());
     }
-    public void TakeHit() 
-    { 
-        //TODO
+    public void TakeHit(int damage)
+    {
+        health -= damage;
+        
+        if(health <= 0)
+            OnLose();
+        
     }
 
+    private void OnLose()
+    {
+        SceneManager.LoadScene("Main Menu(Lydia)");
+    }
+    
     public void increaseMoney(int amount)
     {
         money += amount;

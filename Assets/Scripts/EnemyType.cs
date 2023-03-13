@@ -8,4 +8,5 @@ public class EnemyType
     public int spawnCost;
     public float spawnTime;
     public int goldDrop;
+    public int damage;
 }

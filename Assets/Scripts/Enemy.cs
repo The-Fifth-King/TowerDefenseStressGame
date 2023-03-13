@@ -35,7 +35,7 @@ public class Enemy : MonoBehaviour
         if(transform.position == wayPoints[_wayPointIndex]) _wayPointIndex++;
         if (_wayPointIndex >= wayPoints.Count)
         {
-            _gameController.TakeHit();
+            _gameController.TakeHit(enemyType.damage);
             OnDeath();
         }
     }
