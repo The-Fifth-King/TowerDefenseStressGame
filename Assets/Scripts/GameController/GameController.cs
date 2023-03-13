@@ -33,6 +33,9 @@ public class GameController : MonoBehaviour
     
     private CircuitController _circuitController;
     private Transform _circuitComponents;
+
+    private bool isBuildingPhase = true;
+    [SerializeField] private int money = 20;
     
     private void Awake()
     {
@@ -46,13 +49,20 @@ public class GameController : MonoBehaviour
         return gameField.HasTile(WorldToCell(pos));
     }
     public void PlaceCircuitComponent(Vector3 pos)
-    {
-        if (IsSpaceFilled(pos)) return;
-        
+    { 
+        if (!isBuildingPhase || IsSpaceFilled(pos)) return;
+
+        var towerToPlace = hotBar[_currentHotBarIndex];
+        if (!consumeMoney(towerToPlace.GetComponent<CircuitComponent>().towerCost))
+        {
+            //not enough money to place
+            //vielleicht noch irgendein Fail sound
+            return;
+        }
         var cellPos = WorldToCell(pos);
         gameField.SetTile(cellPos, gameFieldTile);
         var circuitComponent = 
-            Instantiate(hotBar[_currentHotBarIndex], WorldToGrid(pos), Quaternion.identity, _circuitComponents);
+            Instantiate(towerToPlace, WorldToGrid(pos), Quaternion.identity, _circuitComponents);
 
         var component = circuitComponent.GetComponent<CircuitComponent>();
         component.powerGridPos = cellPos;
@@ -111,11 +121,33 @@ public class GameController : MonoBehaviour
 
     public void SpawnWave()
     {
+        if (!isBuildingPhase)
+        {
+            return;
+        }
+        
+        isBuildingPhase = false;
         StartCoroutine(_spawn.SpawnWave());
     }
     public void TakeHit() 
     { 
         //TODO
+    }
+
+    public void increaseMoney(int amount)
+    {
+        money += amount;
+    }
+
+    public bool consumeMoney(int amount)
+    {
+        if (money - amount < 0)
+        {
+            return false;
+        }
+
+        money -= amount;
+        return true;
     }
 
     public void SetCurrentHotBarIndex(int value) => CurrentHotBarIndex = value;

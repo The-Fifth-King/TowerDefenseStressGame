@@ -10,10 +10,18 @@ public class Enemy : MonoBehaviour
     
     [SerializeField, Min(0)] private float speed;
     
-    [HideInInspector] public List<Vector3> wayPoints;
+    private List<Vector3> wayPoints;
     private int _wayPointIndex;
 
-    public Spawn enemySpawn;
+    private Spawn enemySpawn;
+    private EnemyType enemyType;
+
+    public void init(Spawn enemySpawn, EnemyType enemyType, List<Vector3> wayPoints)
+    {
+        this.enemySpawn = enemySpawn;
+        this.enemyType = this.enemyType;
+        this.wayPoints = wayPoints;
+    }
 
     private void Awake()
     {
@@ -32,9 +40,15 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    public void gotKilled()
+    {
+        _gameController.increaseMoney(enemyType.goldDrop);
+        OnDeath();
+    }
+
     private void OnDeath()
     {
-        enemySpawn.EnemyDied(this.gameObject);
+        enemySpawn.EnemyDied();
         Destroy(gameObject);
     }
 }

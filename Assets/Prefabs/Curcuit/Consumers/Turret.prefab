@@ -354,6 +354,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   powerGridPos: {x: 0, y: 0, z: 0}
+  placedByPlayer: 0
+  towerCost: 3
   powerGridImpact: -10
   isOn: 0
   cooldown: 1

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 public class Spawn : MonoBehaviour
@@ -14,21 +15,12 @@ public class Spawn : MonoBehaviour
 
     [SerializeField] private List<Vector3Int> cellsToTraverse;
     
-    [SerializeField] private List<EnemyTypes> possibleEnemies;
+    [SerializeField] private List<EnemyType> possibleEnemies;
     //wird in der ersten Wave schon erhöht
     [SerializeField] private int currentWaveDifficulty = 2;
     [SerializeField] private int difficultyScale;
     private int _enemiesCurrentlyOnTrack;
-    private bool currentWaveActive = false;
-    
-    [System.Serializable]
-    private class EnemyTypes
-    {
-        public GameObject enemyPrefab;
-        public int cost;
-        public float spawnTime;
-    }
-    
+
     private void Awake()
     {
         _gameController = GameObject.FindWithTag("GameController").GetComponent<GameController>();
@@ -46,12 +38,6 @@ public class Spawn : MonoBehaviour
 
     public IEnumerator SpawnWave()
     {
-        if (currentWaveActive)
-        {
-            yield break;
-        }
-        currentWaveActive = true;
-        
         currentWaveDifficulty += difficultyScale;
         _enemiesCurrentlyOnTrack = 0;
         
@@ -59,7 +45,7 @@ public class Spawn : MonoBehaviour
         foreach (var i in wave)
         {
             yield return new WaitForSeconds(possibleEnemies[i].spawnTime);
-            SpawnEnemy(possibleEnemies[i].enemyPrefab);
+            SpawnEnemy(possibleEnemies[i]);
         }
 
     }
@@ -73,7 +59,7 @@ public class Spawn : MonoBehaviour
         while (tmpWaveDiff > 0)
         {
             int i = Random.Range(0, possibleEnemies.Count - 1);
-            int cost = possibleEnemies[i].cost;
+            int cost = possibleEnemies[i].spawnCost;
             if (cost > tmpWaveDiff)
             {
                 continue;
@@ -86,21 +72,21 @@ public class Spawn : MonoBehaviour
         return wave;
     }
 
-    public void EnemyDied(GameObject enemy)
+    public void EnemyDied()
     {
         if (--_enemiesCurrentlyOnTrack == 0)
         {
-            currentWaveActive = false;
+            //wave over
+            //TODO
         }
     }
 
-    private void SpawnEnemy(GameObject enemy)
+    private void SpawnEnemy(EnemyType enemyType)
     {
         _enemiesCurrentlyOnTrack++;
 
-        var instance = Instantiate(enemy, transform.position, Quaternion.identity, _enemyParent);
-        instance.GetComponent<Enemy>().wayPoints = ConvertCellsToWayPoints();
-        instance.GetComponent<Enemy>().enemySpawn = this;
+        var instance = Instantiate(enemyType.enemyPrefab, transform.position, Quaternion.identity, _enemyParent);
+        instance.GetComponent<Enemy>().init(this, enemyType, ConvertCellsToWayPoints());
     }
 
     private List<Vector3> ConvertCellsToWayPoints()
