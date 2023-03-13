@@ -78,7 +78,7 @@ public class Spawn : MonoBehaviour
         {
             //wave over
             //TODO
-            _gameController.isBuildingPhase = true;
+            _gameController.isEnemyPhase = false;
         }
     }
 

@@ -35,9 +35,11 @@ public class GameController : MonoBehaviour
     private CircuitController _circuitController;
     private Transform _circuitComponents;
 
-    public bool isBuildingPhase = true;
+    public bool isEnemyPhase = false;
     [SerializeField] private int money = 20;
     [SerializeField] private int lives = 20;
+    private int score;
+    [SerializeField] private TextMeshProUGUI scoreText;
     
     private void Awake()
     {
@@ -54,7 +56,7 @@ public class GameController : MonoBehaviour
     }
     public void PlaceCircuitComponent(Vector3 pos)
     { 
-        if (!isBuildingPhase || IsSpaceFilled(pos)) return;
+        if (isEnemyPhase || IsSpaceFilled(pos)) return;
 
         var towerToPlace = hotBar[_currentHotBarIndex];
         if (!consumeMoney(towerToPlace.GetComponent<CircuitComponent>().towerCost))
@@ -84,6 +86,11 @@ public class GameController : MonoBehaviour
 
     public void UpdateSilhouette(Vector3 pos)
     {
+        if (isEnemyPhase)
+        {
+            return;
+        }
+        
         if (IsSpaceFilled(pos))
         {
             //Debug.Log("space filled");
@@ -125,12 +132,13 @@ public class GameController : MonoBehaviour
 
     public void SpawnWave()
     {
-        if (!isBuildingPhase)
+        if (isEnemyPhase)
         {
             return;
         }
         
-        isBuildingPhase = false;
+        isEnemyPhase = true;
+        DestroySilhouette();
         StartCoroutine(_spawn.SpawnWave());
     }
     public void TakeHit(int damage)
@@ -165,6 +173,12 @@ public class GameController : MonoBehaviour
 
         money -= amount;
         return true;
+    }
+
+    public void increaseScore(int amount)
+    {
+        score += amount;
+        scoreText.text = score.ToString();
     }
 
     public void SetCurrentHotBarIndex(int value) => CurrentHotBarIndex = value;
