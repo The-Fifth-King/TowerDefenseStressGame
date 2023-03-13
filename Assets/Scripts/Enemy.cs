@@ -19,7 +19,7 @@ public class Enemy : MonoBehaviour
     public void init(Spawn enemySpawn, EnemyType enemyType, List<Vector3> wayPoints)
     {
         this.enemySpawn = enemySpawn;
-        this.enemyType = this.enemyType;
+        this.enemyType = enemyType;
         this.wayPoints = wayPoints;
     }
 
