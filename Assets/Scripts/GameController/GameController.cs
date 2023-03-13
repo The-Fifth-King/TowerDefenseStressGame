@@ -1,7 +1,5 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Tilemaps;
@@ -10,6 +8,8 @@ public class GameController : MonoBehaviour
 {
     [SerializeField] private Tilemap gameField;
     [SerializeField] private Tile gameFieldTile;
+
+    [SerializeField] private TextMeshProUGUI liveText;
     
     public GameObject[] hotBar;
     private int _currentHotBarIndex;
@@ -37,13 +37,15 @@ public class GameController : MonoBehaviour
 
     public bool isBuildingPhase = true;
     [SerializeField] private int money = 20;
-    [SerializeField] private int health = 20;
+    [SerializeField] private int lives = 20;
     
     private void Awake()
     {
         _spawn = FindObjectOfType<Spawn>();
         _circuitController = GetComponent<CircuitController>();
         _circuitComponents = GameObject.FindWithTag("EntityController").transform.Find("CircuitComponents");
+
+        liveText.text = "" + lives;
     }
 
     private bool IsSpaceFilled(Vector3 pos)
@@ -133,15 +135,19 @@ public class GameController : MonoBehaviour
     }
     public void TakeHit(int damage)
     {
-        health -= damage;
+        Debug.Log("Enemy came through! Recieved Damage: " + damage);
         
-        if(health <= 0)
+        lives -= damage;
+        liveText.text = "" + lives;
+        
+        if(lives <= 0)
             OnLose();
         
     }
 
     private void OnLose()
     {
+        Debug.Log("A Noob lost the game!");
         SceneManager.LoadScene("Main Menu(Lydia)");
     }
     

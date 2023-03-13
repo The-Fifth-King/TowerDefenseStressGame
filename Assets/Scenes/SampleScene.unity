@@ -4044,6 +4044,10 @@ PrefabInstance:
       value: GameController
       objectReference: {fileID: 0}
     - target: {fileID: 8582075093126328575, guid: 68ae57925427af74bb1e7306f185ac6f, type: 3}
+      propertyPath: health
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8582075093126328575, guid: 68ae57925427af74bb1e7306f185ac6f, type: 3}
       propertyPath: gameField
       value: 
       objectReference: {fileID: 397162903}
@@ -4110,7 +4114,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 257197766288684701, guid: 5c600161e87e34d4b9cc7c341a0bd846, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 520.4
+      value: 848
       objectReference: {fileID: 0}
     - target: {fileID: 799722977389202604, guid: 5c600161e87e34d4b9cc7c341a0bd846, type: 3}
       propertyPath: m_Pivot.x
@@ -4126,7 +4130,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 799722977389202604, guid: 5c600161e87e34d4b9cc7c341a0bd846, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 670.9
+      value: 1408
       objectReference: {fileID: 0}
     - target: {fileID: 843658031989080702, guid: 5c600161e87e34d4b9cc7c341a0bd846, type: 3}
       propertyPath: m_Pivot.x
@@ -4142,7 +4146,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 843658031989080702, guid: 5c600161e87e34d4b9cc7c341a0bd846, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 430.1
+      value: 512
       objectReference: {fileID: 0}
     - target: {fileID: 1257161476181893049, guid: 5c600161e87e34d4b9cc7c341a0bd846, type: 3}
       propertyPath: padding
@@ -4162,7 +4166,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2125849957659497247, guid: 5c600161e87e34d4b9cc7c341a0bd846, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 580.6
+      value: 1072
       objectReference: {fileID: 0}
     - target: {fileID: 3497800120266563528, guid: 5c600161e87e34d4b9cc7c341a0bd846, type: 3}
       propertyPath: m_Pivot.x
@@ -4178,7 +4182,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3497800120266563528, guid: 5c600161e87e34d4b9cc7c341a0bd846, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 640.8
+      value: 1296
       objectReference: {fileID: 0}
     - target: {fileID: 4408964264348843137, guid: 5c600161e87e34d4b9cc7c341a0bd846, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -4198,7 +4202,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4897440496372150206, guid: 5c600161e87e34d4b9cc7c341a0bd846, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 610.7
+      value: 1184
       objectReference: {fileID: 0}
     - target: {fileID: 6784327826431863226, guid: 5c600161e87e34d4b9cc7c341a0bd846, type: 3}
       propertyPath: m_Pivot.x
@@ -4214,7 +4218,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6784327826431863226, guid: 5c600161e87e34d4b9cc7c341a0bd846, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 550.5
+      value: 960
       objectReference: {fileID: 0}
     - target: {fileID: 7404590928750990933, guid: 5c600161e87e34d4b9cc7c341a0bd846, type: 3}
       propertyPath: m_Name
@@ -4322,7 +4326,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8239044237654323776, guid: 5c600161e87e34d4b9cc7c341a0bd846, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 460.2
+      value: 624
       objectReference: {fileID: 0}
     - target: {fileID: 9055493262744616998, guid: 5c600161e87e34d4b9cc7c341a0bd846, type: 3}
       propertyPath: m_Pivot.x
@@ -4338,7 +4342,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9055493262744616998, guid: 5c600161e87e34d4b9cc7c341a0bd846, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 490.3
+      value: 736
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5c600161e87e34d4b9cc7c341a0bd846, type: 3}
