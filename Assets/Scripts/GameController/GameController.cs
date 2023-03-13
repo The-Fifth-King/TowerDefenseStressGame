@@ -34,7 +34,7 @@ public class GameController : MonoBehaviour
     private CircuitController _circuitController;
     private Transform _circuitComponents;
 
-    private bool isBuildingPhase = true;
+    public bool isBuildingPhase = true;
     [SerializeField] private int money = 20;
     
     private void Awake()

@@ -185,8 +185,9 @@ MonoBehaviour:
   cellsToTraverse: []
   possibleEnemies:
   - enemyPrefab: {fileID: 7744757811473074080, guid: fd80966a8ad8cb146bcff899a5b4a309, type: 3}
-    cost: 1
+    spawnCost: 1
     spawnTime: 0.25
+    goldDrop: 3
   currentWaveDifficulty: 2
   difficultyScale: 3
 --- !u!120 &6797386784345212850
