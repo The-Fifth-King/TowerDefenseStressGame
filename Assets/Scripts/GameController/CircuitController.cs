@@ -139,7 +139,7 @@ public class CircuitController : MonoBehaviour
             
         }*/
 
-        var componentList = _circuits[index].allCircuitsComponents;
+        var componentList = _circuits[index].GetAllComponents();
         foreach (var i in componentList)
         {
             if (!i.placedByPlayer)
@@ -155,8 +155,6 @@ public class CircuitController : MonoBehaviour
                 if(i is Wire wire) wire.RemoveConnection(GetNeighbourConnectionMaskBit(currentData.gridPos, j.gridPos));
             }
             _powerGridData.Remove(currentData);
-            //Debug.Log(_powerGridData); 
-            //Debug.Log("test");
             gameField.SetTile(currentData.gridPos, null);
             Destroy(i.gameObject);
         }
