@@ -1,7 +1,5 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -36,6 +34,8 @@ public class GameController : MonoBehaviour
 
     public bool isEnemyPhase = false;
     [SerializeField] private int money = 20;
+    private int score;
+    [SerializeField] private TextMeshProUGUI scoreText;
     
     private void Awake()
     {
@@ -154,6 +154,12 @@ public class GameController : MonoBehaviour
 
         money -= amount;
         return true;
+    }
+
+    public void increaseScore(int amount)
+    {
+        score += amount;
+        scoreText.text = score.ToString();
     }
 
     public void SetCurrentHotBarIndex(int value) => CurrentHotBarIndex = value;
