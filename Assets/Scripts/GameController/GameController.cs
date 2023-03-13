@@ -9,7 +9,7 @@ public class GameController : MonoBehaviour
     [SerializeField] private Tilemap gameField;
     [SerializeField] private Tile gameFieldTile;
 
-    [SerializeField] private TextMeshProUGUI liveText;
+    [SerializeField] private TextMeshProUGUI liveText;  //Cooler text für leben
     
     public GameObject[] hotBar;
     private int _currentHotBarIndex;
