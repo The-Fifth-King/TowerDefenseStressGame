@@ -6,6 +6,7 @@ using UnityEngine;
 public class Projectile : MonoBehaviour
 {
     [SerializeField, Min(0)] private float speed;
+    [SerializeField, Min(0)] private int damage;
     [HideInInspector] public Vector3 targetPosition;
 
     private void Update()
@@ -21,7 +22,7 @@ public class Projectile : MonoBehaviour
         var enemy = col.gameObject.GetComponent<Enemy>();
         if (enemy != null)
         {
-            enemy.gotKilled();
+            enemy.ReceiveDamage(damage);
         }
         else
         {

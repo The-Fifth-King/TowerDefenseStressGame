@@ -33,6 +33,8 @@ public class Circuit
         }
         else if (!isOn)
         {
+            //show warning on circuit dass Power nicht genug ist
+            
             var powerEach = Mathf.Abs(power / _batteries.Count);
             _batteries.ForEach(x => x.Drain(powerEach));
         }

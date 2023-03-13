@@ -1,25 +1,30 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+    public static Dictionary<string, EnemyType> EnemyTypes;
+
     private GameController _gameController;
-    
-    [SerializeField, Min(0)] private float speed;
-    
+
     private List<Vector3> wayPoints;
     private int _wayPointIndex;
 
     private Spawn enemySpawn;
-    private EnemyType enemyType;
+    
+    [SerializeField] private int goldDrop;
+    [SerializeField] private float moveSpeed;
+    [SerializeField] private int hp;
+    [SerializeField] public int spawnCost;
+    [SerializeField] public float spawnTime;
 
-    public void init(Spawn enemySpawn, EnemyType enemyType, List<Vector3> wayPoints)
+    public void init(Spawn enemySpawn, List<Vector3> wayPoints)
     {
         this.enemySpawn = enemySpawn;
-        this.enemyType = enemyType;
         this.wayPoints = wayPoints;
     }
 
@@ -30,7 +35,7 @@ public class Enemy : MonoBehaviour
     private void Update()
     {
         transform.position = Vector3.MoveTowards(
-            transform.position, wayPoints[_wayPointIndex], speed * Time.deltaTime);
+            transform.position, wayPoints[_wayPointIndex], moveSpeed * Time.deltaTime);
         
         if(transform.position == wayPoints[_wayPointIndex]) _wayPointIndex++;
         if (_wayPointIndex >= wayPoints.Count)
@@ -40,10 +45,15 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    public void gotKilled()
+    public void ReceiveDamage(int dmg)
     {
-        _gameController.increaseMoney(enemyType.goldDrop);
-        OnDeath();
+        hp -= dmg;
+        if (hp <= 0)
+        {
+            _gameController.increaseMoney(goldDrop);
+            _gameController.increaseScore(goldDrop);
+            OnDeath();
+        }
     }
 
     private void OnDeath()

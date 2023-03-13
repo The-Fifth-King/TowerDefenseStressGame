@@ -15,11 +15,12 @@ public class Spawn : MonoBehaviour
 
     [SerializeField] private List<Vector3Int> cellsToTraverse;
     
-    [SerializeField] private List<EnemyType> possibleEnemies;
+    [SerializeField] private List<Enemy> possibleEnemies;
     //wird in der ersten Wave schon erhöht
     [SerializeField] private int currentWaveDifficulty = 2;
     [SerializeField] private int difficultyScale;
     private int _enemiesCurrentlyOnTrack;
+    private List<int> wave = new List<int>();
 
     private void Awake()
     {
@@ -41,7 +42,7 @@ public class Spawn : MonoBehaviour
         currentWaveDifficulty += difficultyScale;
         _enemiesCurrentlyOnTrack = 0;
         
-        List<int> wave = GenerateNewWave();
+        GenerateNewWave();
         foreach (var i in wave)
         {
             yield return new WaitForSeconds(possibleEnemies[i].spawnTime);
@@ -50,10 +51,11 @@ public class Spawn : MonoBehaviour
 
     }
     
-    private List<int> GenerateNewWave()
+    private void GenerateNewWave()
     {
         //bestimmt random einen enemy type, kann dieser "gekauft" werden wird er in die Wave hinzugefügt
-        List<int> wave = new List<int>();
+        wave.Clear();
+        
         int tmpWaveDiff = currentWaveDifficulty;
         
         while (tmpWaveDiff > 0)
@@ -69,7 +71,6 @@ public class Spawn : MonoBehaviour
             tmpWaveDiff -= cost;
         }
 
-        return wave;
     }
 
     public void EnemyDied()
@@ -82,12 +83,12 @@ public class Spawn : MonoBehaviour
         }
     }
 
-    private void SpawnEnemy(EnemyType enemyType)
+    private void SpawnEnemy(Enemy enemy)
     {
         _enemiesCurrentlyOnTrack++;
 
-        var instance = Instantiate(enemyType.enemyPrefab, transform.position, Quaternion.identity, _enemyParent);
-        instance.GetComponent<Enemy>().init(this, enemyType, ConvertCellsToWayPoints());
+        var instance = Instantiate(enemy, transform.position, Quaternion.identity, _enemyParent);
+        instance.GetComponent<Enemy>().init(this, ConvertCellsToWayPoints());
     }
 
     private List<Vector3> ConvertCellsToWayPoints()
