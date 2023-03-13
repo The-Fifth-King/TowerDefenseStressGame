@@ -10,7 +10,8 @@ public class GameController : MonoBehaviour
     [SerializeField] private Tile gameFieldTile;
 
     [SerializeField] private TextMeshProUGUI liveText;  //Cooler text für leben
-    
+    [SerializeField] private Healthbar _healthbar;
+
     public GameObject[] hotBar;
     private int _currentHotBarIndex;
     private GameObject _silhouette;
@@ -31,7 +32,7 @@ public class GameController : MonoBehaviour
     public event Action<int> HotbarIndexChanged;
 
     private Spawn _spawn;
-    
+
     private CircuitController _circuitController;
     private Transform _circuitComponents;
 
@@ -40,7 +41,7 @@ public class GameController : MonoBehaviour
     [SerializeField] private int lives = 20;
     private int score;
     [SerializeField] private TextMeshProUGUI scoreText;
-    
+
     private void Awake()
     {
         _spawn = FindObjectOfType<Spawn>();
@@ -48,6 +49,8 @@ public class GameController : MonoBehaviour
         _circuitComponents = GameObject.FindWithTag("EntityController").transform.Find("CircuitComponents");
 
         liveText.text = "" + lives;
+        _healthbar.setMaxHealth(lives);
+        _healthbar.setHealth(lives);
     }
 
     private bool IsSpaceFilled(Vector3 pos)
@@ -55,7 +58,7 @@ public class GameController : MonoBehaviour
         return gameField.HasTile(WorldToCell(pos));
     }
     public void PlaceCircuitComponent(Vector3 pos)
-    { 
+    {
         if (isEnemyPhase || IsSpaceFilled(pos)) return;
 
         var towerToPlace = hotBar[_currentHotBarIndex];
@@ -67,7 +70,7 @@ public class GameController : MonoBehaviour
         }
         var cellPos = WorldToCell(pos);
         gameField.SetTile(cellPos, gameFieldTile);
-        var circuitComponent = 
+        var circuitComponent =
             Instantiate(towerToPlace, WorldToGrid(pos), Quaternion.identity, _circuitComponents);
 
         var component = circuitComponent.GetComponent<CircuitComponent>();
@@ -79,7 +82,7 @@ public class GameController : MonoBehaviour
     public void DeleteCircuitComponent(Vector3 pos)
     {
         if (!IsSpaceFilled(pos)) return;
-        
+
         var cellPos = WorldToCell(pos);
         _circuitController.DeleteComponent(cellPos, gameField);
     }
@@ -90,14 +93,14 @@ public class GameController : MonoBehaviour
         {
             return;
         }
-        
+
         if (IsSpaceFilled(pos))
         {
             //Debug.Log("space filled");
             DestroySilhouette();
             return;
         }
-        
+
         if (_silhouette == null)
         {
             //Debug.Log("silhouette null");
@@ -125,7 +128,7 @@ public class GameController : MonoBehaviour
         _silhouette = null;
     }
 
-    
+
     public Vector3Int WorldToCell(Vector3 pos) => gameField.WorldToCell(pos);
     public Vector3 CellToGrid(Vector3Int pos) => gameField.CellToWorld(pos);
     public Vector3 WorldToGrid(Vector3 pos) => gameField.CellToWorld(gameField.WorldToCell(pos));
@@ -136,21 +139,23 @@ public class GameController : MonoBehaviour
         {
             return;
         }
-        
+
         isEnemyPhase = true;
         DestroySilhouette();
         StartCoroutine(_spawn.SpawnWave());
     }
+    
     public void TakeHit(int damage)
     {
         Debug.Log("Enemy came through! Recieved Damage: " + damage);
-        
+
         lives -= damage;
         liveText.text = "" + lives;
-        
-        if(lives <= 0)
+        _healthbar.setHealth(lives);
+
+        if (lives <= 0)
             OnLose();
-        
+
     }
 
     private void OnLose()
@@ -158,7 +163,7 @@ public class GameController : MonoBehaviour
         Debug.Log("A Noob lost the game!");
         SceneManager.LoadScene("Main Menu(Lydia)");
     }
-    
+
     public void increaseMoney(int amount)
     {
         money += amount;
