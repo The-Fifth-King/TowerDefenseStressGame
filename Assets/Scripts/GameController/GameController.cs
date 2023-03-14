@@ -48,9 +48,15 @@ public class GameController : MonoBehaviour
         _circuitController = GetComponent<CircuitController>();
         _circuitComponents = GameObject.FindWithTag("EntityController").transform.Find("CircuitComponents");
 
-        liveText.text = "" + lives;
-        _healthbar.setMaxHealth(lives);
-        _healthbar.setHealth(lives);
+        if(liveText)
+            liveText.text = "" + lives;
+
+        if (_healthbar)
+        {
+            _healthbar.setMaxHealth(lives);
+            _healthbar.setHealth(lives);
+        }
+        
     }
 
     private bool IsSpaceFilled(Vector3 pos)
@@ -150,8 +156,12 @@ public class GameController : MonoBehaviour
         Debug.Log("Enemy came through! Recieved Damage: " + damage);
 
         lives -= damage;
-        liveText.text = "" + lives;
-        _healthbar.setHealth(lives);
+        
+        if(liveText != null)
+            liveText.text = "" + lives;
+        
+        if(_healthbar != null)
+            _healthbar.setHealth(lives);
 
         if (lives <= 0)
             OnLose();
