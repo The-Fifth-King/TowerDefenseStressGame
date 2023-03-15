@@ -1,3 +1,4 @@
+#nullable enable
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -15,6 +16,8 @@ public class InputController : MonoBehaviour
     
     private Vector3 _mousePos;
     private GameObject _silhouette;
+
+    private bool _pressed;
     
     private void Awake()
     {
@@ -29,10 +32,17 @@ public class InputController : MonoBehaviour
     
     private void InteractHandler(InputAction.CallbackContext context)
     {
-        ClickHelper(true);
+        _pressed = true;
     }
+
+    private void Update()
+    {
+        if (_pressed) ClickHelper(true);
+    }
+
     private void ReleaseHandler(InputAction.CallbackContext context)
     {
+        _pressed = false;
         if (!_hit) return;
         _hit.transform.GetComponentInParent<IInteractable>()?.Release();
     }
