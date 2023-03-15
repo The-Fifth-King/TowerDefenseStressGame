@@ -102,14 +102,12 @@ public class GameController : MonoBehaviour
 
         if (IsSpaceFilled(pos))
         {
-            //Debug.Log("space filled");
             DestroySilhouette();
             return;
         }
 
         if (_silhouette == null)
         {
-            //Debug.Log("silhouette null");
             CreateSilhouette(pos);
         }
         else
@@ -128,7 +126,7 @@ public class GameController : MonoBehaviour
             sr.color = color;
         }
     }
-    private void DestroySilhouette()
+    public void DestroySilhouette()
     {
         Destroy(_silhouette);
         _silhouette = null;

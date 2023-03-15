@@ -67,7 +67,11 @@ public class InputController : MonoBehaviour
         _mousePos = mainCam.ScreenToWorldPoint(context.ReadValue<Vector2>());
         _mousePos.z = 0;
 
-        _gameController.UpdateSilhouette(_mousePos);
+        if (Cursor.lockState != CursorLockMode.Locked)
+            _gameController.UpdateSilhouette(_mousePos);
+        else
+            _gameController.DestroySilhouette();
+        
     }
     private void HotBarScrollHandler(InputAction.CallbackContext context)
     {
