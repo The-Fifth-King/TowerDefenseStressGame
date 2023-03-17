@@ -15,6 +15,7 @@ public class CircuitController : MonoBehaviour
         public CircuitComponent component;
         public Vector3Int gridPos;
         public int circuitIndex;
+        public bool visitedFlag = false;
     }
 
     private void Awake()
@@ -138,8 +139,10 @@ public class CircuitController : MonoBehaviour
         {
             
         }*/
+       
+       
 
-        var componentList = _circuits[index].GetAllComponents();
+       var componentList = _circuits[index].GetAllComponents();
         foreach (var i in componentList)
         {
             if (!i.placedByPlayer)
@@ -158,8 +161,24 @@ public class CircuitController : MonoBehaviour
             gameField.SetTile(currentData.gridPos, null);
             Destroy(i.gameObject);
         }
-
+        
         _circuits.Remove(index);
+    }
+
+    private bool ConnectionDFS(PowerGridData currentData, PowerGridData rootData, PowerGridData target)
+    {
+        currentData.visitedFlag = true;
+        var currentNeighbours = FindNeighbours(currentData.gridPos);
+        
+        foreach (var newData in currentNeighbours)
+        {
+            if (newData == target)
+                return true;
+            if (newData != rootData && !newData.visitedFlag)
+                ConnectionDFS(newData, currentData, target);
+        }
+        
+        return false;
     }
     
     private List<PowerGridData> FindNeighbours(Vector3Int pos)
