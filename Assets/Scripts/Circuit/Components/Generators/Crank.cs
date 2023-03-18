@@ -67,12 +67,14 @@ public class Crank : Generator, IInteractable
     public void Interact()
     {
         _isTurned = true;
+        GameObject.Find("GameController").GetComponent<InputController>().inCrank = true;
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
     }
     public void Release() 
     {
         _isTurned = false;
+        GameObject.Find("GameController").GetComponent<InputController>().inCrank = false;
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
     }

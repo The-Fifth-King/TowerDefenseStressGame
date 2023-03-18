@@ -18,6 +18,7 @@ public class InputController : MonoBehaviour
     private GameObject _silhouette;
 
     private bool _pressed;
+    public bool inCrank;
     
     private void Awake()
     {
@@ -28,6 +29,7 @@ public class InputController : MonoBehaviour
         _pointer = _input.currentActionMap.FindAction("Pointer");
         _hotBarScroll = _input.currentActionMap.FindAction("HotBarScroll");
         _startWave = _input.currentActionMap.FindAction("StartWave");
+        inCrank = false;
     }
     
     private void InteractHandler(InputAction.CallbackContext context)
@@ -37,7 +39,7 @@ public class InputController : MonoBehaviour
 
     private void Update()
     {
-        if (_pressed) ClickHelper(true);
+        if (_pressed && !inCrank) ClickHelper(true);
     }
 
     private void ReleaseHandler(InputAction.CallbackContext context)
