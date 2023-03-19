@@ -26,15 +26,19 @@ public class Spawn : MonoBehaviour
     {
         _gameController = GameObject.FindWithTag("GameController").GetComponent<GameController>();
         _lineRenderer = GetComponent<LineRenderer>();
-        var wayPoints = ConvertCellsToWayPoints().ToArray();
-        _lineRenderer.positionCount = wayPoints.Length;
-        _lineRenderer.SetPositions(wayPoints);
+        var wayPoints = ConvertCellsToWayPoints();
+        wayPoints.ForEach(x => _gameController.PlaceGameFieldBlockage(x));
+        var wayPointsArray = wayPoints.ToArray();
+        _lineRenderer.positionCount = wayPointsArray.Length;
+        _lineRenderer.SetPositions(wayPointsArray);
         _lineRenderer.SetPosition(0, _gameController.WorldToGrid(transform.position));
+        _gameController.PlaceGameFieldBlockage(_gameController.WorldToGrid(transform.position));
         _lineRenderer.SetPosition(_lineRenderer.positionCount - 1, 
+            _gameController.WorldToGrid(GameObject.FindWithTag("Finish").transform.position));
+        _gameController.PlaceGameFieldBlockage(
             _gameController.WorldToGrid(GameObject.FindWithTag("Finish").transform.position));
 
         _enemyParent = GameObject.FindWithTag("EntityController").transform.Find("Enemies");
-        
     }
 
     public IEnumerator SpawnWave()

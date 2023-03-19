@@ -56,12 +56,15 @@ public class GameController : MonoBehaviour
             _healthbar.setMaxHealth(lives);
             _healthbar.setHealth(lives);
         }
-        
     }
 
     private bool IsSpaceFilled(Vector3 pos)
     {
         return gameField.HasTile(WorldToCell(pos));
+    }
+    public void PlaceGameFieldBlockage(Vector3 pos)
+    {
+        gameField.SetTile(WorldToCell(pos), gameFieldTile);
     }
     public void PlaceCircuitComponent(Vector3 pos)
     {
@@ -76,6 +79,7 @@ public class GameController : MonoBehaviour
         }
         var cellPos = WorldToCell(pos);
         gameField.SetTile(cellPos, gameFieldTile);
+
         var circuitComponent =
             Instantiate(towerToPlace, WorldToGrid(pos), Quaternion.identity, _circuitComponents);
 
@@ -84,7 +88,6 @@ public class GameController : MonoBehaviour
         component.placedByPlayer = true;
         _circuitController.AddComponent(component, cellPos);
     }
-
     public void DeleteCircuitComponent(Vector3 pos)
     {
         if (!IsSpaceFilled(pos)) return;

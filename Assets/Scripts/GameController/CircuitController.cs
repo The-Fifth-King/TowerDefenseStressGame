@@ -87,6 +87,8 @@ public class CircuitController : MonoBehaviour
     public void DeleteComponent(Vector3Int gridPos, Tilemap gameField)
     {
         PowerGridData current = _powerGridData.Find(x => x.gridPos.Equals(gridPos));
+        if(current == null) return;
+
         CircuitComponent component = current.component;
         int index = current.circuitIndex;
 
