@@ -25,18 +25,14 @@ public class Spawn : MonoBehaviour
     private void Awake()
     {
         _gameController = GameObject.FindWithTag("GameController").GetComponent<GameController>();
-        _lineRenderer = GetComponent<LineRenderer>();
+        
         var wayPoints = ConvertCellsToWayPoints();
         wayPoints.ForEach(x => _gameController.PlaceGameFieldBlockage(x));
+        
         var wayPointsArray = wayPoints.ToArray();
+        _lineRenderer = GetComponent<LineRenderer>();
         _lineRenderer.positionCount = wayPointsArray.Length;
         _lineRenderer.SetPositions(wayPointsArray);
-        _lineRenderer.SetPosition(0, _gameController.WorldToGrid(transform.position));
-        _gameController.PlaceGameFieldBlockage(_gameController.WorldToGrid(transform.position));
-        _lineRenderer.SetPosition(_lineRenderer.positionCount - 1, 
-            _gameController.WorldToGrid(GameObject.FindWithTag("Finish").transform.position));
-        _gameController.PlaceGameFieldBlockage(
-            _gameController.WorldToGrid(GameObject.FindWithTag("Finish").transform.position));
 
         _enemyParent = GameObject.FindWithTag("EntityController").transform.Find("Enemies");
     }
@@ -101,12 +97,16 @@ public class Spawn : MonoBehaviour
         var wayPoints = new List<Vector3>();
         
         var cell = _gameController.WorldToCell(transform.position);
+        wayPoints.Add(_gameController.CellToGrid(cell));
+        
         foreach (var relativeCell in cellsToTraverse)
         {
             cell += relativeCell;
             wayPoints.Add(_gameController.CellToGrid(cell));
         }
 
+        wayPoints.Add(_gameController.WorldToGrid(GameObject.FindWithTag("Finish").transform.position));
+        
         return wayPoints;
     }
 
