@@ -24,11 +24,7 @@ public class Battery : ActiveCircuitComponent
 
     public void Charge(float amount)
     {
-        powerGridImpact = Mathf.MoveTowards(powerGridImpact, capacity, amount);
-    }
-
-    public void Drain(float amount)
-    {
-        powerGridImpact = Mathf.MoveTowards(powerGridImpact, 0, amount);
+        powerGridImpact = Mathf.MoveTowards(powerGridImpact, amount > 0 ? capacity : 0, 
+            Math.Abs(amount));
     }
 }

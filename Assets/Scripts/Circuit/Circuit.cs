@@ -24,21 +24,15 @@ public class Circuit
         var power = 0f;
         power += _generators.Sum(x => x.powerGridImpact);
         power += _consumers.Sum(x => x.powerGridImpact);
-        var isOn = power >= 0;
 
-        if (isOn && _batteries.Count > 0)
+        if (_batteries.Count > 0)
         {
             var powerEach = power / _batteries.Count;
+            power += _batteries.Sum(x => x.powerGridImpact);
             _batteries.ForEach(x => x.Charge(powerEach));
         }
-        else if (!isOn)
-        {
-            //show warning on circuit dass Power nicht genug ist
-            
-            var powerEach = Mathf.Abs(power / _batteries.Count);
-            _batteries.ForEach(x => x.Drain(powerEach));
-        }
         
+        var isOn = power >= 0;
         _consumers.ForEach(x => x.isOn = isOn);
     }
 
