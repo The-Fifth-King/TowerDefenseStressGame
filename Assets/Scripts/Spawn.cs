@@ -48,7 +48,6 @@ public class Spawn : MonoBehaviour
             yield return new WaitForSeconds(possibleEnemies[i].spawnTime);
             SpawnEnemy(possibleEnemies[i]);
         }
-
     }
     
     private void GenerateNewWave()

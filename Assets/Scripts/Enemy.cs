@@ -14,12 +14,13 @@ public class Enemy : MonoBehaviour
     
     //sind alles eigentlich nur CONST bis auf hp, aber serialize sonst nicht
     [SerializeField] private int goldDrop;
-    [SerializeField] private float moveSpeed;
+    [SerializeField] private float baseSpeed;
     [SerializeField] private int hp;
     public int spawnCost;
     public float spawnTime;
     public int damage;
 
+    private float currentSpeed;
 
     public void init(Spawn enemySpawn, List<Vector3> wayPoints)
     {
@@ -30,11 +31,13 @@ public class Enemy : MonoBehaviour
     private void Awake()
     {
         _gameController = GameObject.FindWithTag("GameController").GetComponent<GameController>();
+        currentSpeed = baseSpeed;
     }
     private void Update()
     {
+        transform.up = wayPoints[_wayPointIndex] - transform.position;
         transform.position = Vector3.MoveTowards(
-            transform.position, wayPoints[_wayPointIndex], moveSpeed * Time.deltaTime);
+            transform.position, wayPoints[_wayPointIndex], currentSpeed * Time.deltaTime);
         
         if(transform.position == wayPoints[_wayPointIndex]) _wayPointIndex++;
         if (_wayPointIndex >= wayPoints.Count)
@@ -42,6 +45,11 @@ public class Enemy : MonoBehaviour
             _gameController.TakeHit(damage);
             OnDeath();
         }
+    }
+
+    public void Accelerate(float percentage)
+    {
+        currentSpeed += percentage * 0.01f * baseSpeed;
     }
 
     public void ReceiveDamage(int dmg)
