@@ -79,7 +79,7 @@ SpriteMask:
   m_BackSortingLayerID: 474094765
   m_FrontSortingLayer: 4
   m_BackSortingLayer: 3
-  m_FrontSortingOrder: 1
+  m_FrontSortingOrder: 0
   m_BackSortingOrder: -1
   m_IsCustomRangeActive: 1
   m_SpriteSortPoint: 0
@@ -359,7 +359,6 @@ MonoBehaviour:
   powerGridImpact: -10
   isOn: 0
   cooldown: 1
-  operatingRate: 1
   targeting: 0
   towerHead: {fileID: 3655740637384827780}
   projectile: {fileID: 7744757811473074080, guid: 2d39c0f46dc74a443a5cecfb04475737, type: 3}

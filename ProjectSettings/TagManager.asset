@@ -45,6 +45,9 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Auras
+    uniqueID: 2400658755
+    locked: 0
   - name: Enemy
     uniqueID: 813946339
     locked: 0
