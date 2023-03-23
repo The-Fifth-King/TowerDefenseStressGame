@@ -11,7 +11,7 @@ public class InputController : MonoBehaviour
     private GameController _gameController;
 
     private PlayerInput _input;
-    private InputAction _interact, _delete, _pointer, _hotBarScroll, _startWave;
+    private InputAction _interact, _delete, _pointer, _hotBarScroll, _hotBarChoose, _startWave;
     private RaycastHit2D _hit;
     
     private Vector3 _mousePos;
@@ -28,6 +28,7 @@ public class InputController : MonoBehaviour
         _delete = _input.currentActionMap.FindAction("Delete");
         _pointer = _input.currentActionMap.FindAction("Pointer");
         _hotBarScroll = _input.currentActionMap.FindAction("HotBarScroll");
+        _hotBarChoose = _input.currentActionMap.FindAction("HotBarChoose");
         _startWave = _input.currentActionMap.FindAction("StartWave");
         inCrank = false;
     }
@@ -96,6 +97,9 @@ public class InputController : MonoBehaviour
                 break;
         }
     }
+
+    private void HotBarChooseHandler(InputAction.CallbackContext context) => _gameController.SetCurrentHotBarIndex((int) context.ReadValue<float>());
+    
     private void StartWaveHandler(InputAction.CallbackContext context) => _gameController.SpawnWave();
 
     private void SetInputActive(bool value)
@@ -107,6 +111,7 @@ public class InputController : MonoBehaviour
             _delete.performed += DeleteHandler;
             _pointer.performed += PointerHandler;
             _hotBarScroll.performed += HotBarScrollHandler;
+            _hotBarChoose.performed += HotBarChooseHandler;
             _startWave.performed += StartWaveHandler;
         }
         else
@@ -116,6 +121,7 @@ public class InputController : MonoBehaviour
             _delete.performed -= DeleteHandler;
             _pointer.performed -= PointerHandler;
             _hotBarScroll.performed -= HotBarScrollHandler;
+            _hotBarChoose.performed -= HotBarChooseHandler;
             _startWave.performed -= StartWaveHandler;
         }
     }

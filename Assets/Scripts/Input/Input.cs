@@ -64,6 +64,15 @@ public partial class @Input : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
+                    ""name"": ""HotBarChoose"",
+                    ""type"": ""Button"",
+                    ""id"": ""ee91d0fd-e926-48ca-bda7-fe9003501200"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""StartWave"",
                     ""type"": ""Button"",
                     ""id"": ""ad2c2def-34ce-48e7-9694-785282962b36"",
@@ -150,6 +159,105 @@ public partial class @Input : IInputActionCollection2, IDisposable
                     ""action"": ""Delete"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""dac9fc92-78d3-4071-b5fb-c0e2efdc8237"",
+                    ""path"": ""<Keyboard>/1"",
+                    ""interactions"": """",
+                    ""processors"": ""Scale"",
+                    ""groups"": """",
+                    ""action"": ""HotBarChoose"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""29e4233b-7cfa-425b-af56-d53578df034d"",
+                    ""path"": ""<Keyboard>/2"",
+                    ""interactions"": """",
+                    ""processors"": ""Scale(factor=2)"",
+                    ""groups"": """",
+                    ""action"": ""HotBarChoose"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6ba35f71-01bd-4bfe-89c3-d289b8f772ca"",
+                    ""path"": ""<Keyboard>/3"",
+                    ""interactions"": """",
+                    ""processors"": ""Scale(factor=3)"",
+                    ""groups"": """",
+                    ""action"": ""HotBarChoose"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""190829c9-0ef6-4966-8d61-df219c5091c0"",
+                    ""path"": ""<Keyboard>/4"",
+                    ""interactions"": """",
+                    ""processors"": ""Scale(factor=4)"",
+                    ""groups"": """",
+                    ""action"": ""HotBarChoose"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""92739368-31cd-40fb-bbab-066022e171d6"",
+                    ""path"": ""<Keyboard>/5"",
+                    ""interactions"": """",
+                    ""processors"": ""Scale(factor=5)"",
+                    ""groups"": """",
+                    ""action"": ""HotBarChoose"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9cae5171-6dbd-4d50-9717-a5b59b9f754f"",
+                    ""path"": ""<Keyboard>/6"",
+                    ""interactions"": """",
+                    ""processors"": ""Scale(factor=6)"",
+                    ""groups"": """",
+                    ""action"": ""HotBarChoose"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e8566fb0-1645-4324-bd52-2b89cac51125"",
+                    ""path"": ""<Keyboard>/7"",
+                    ""interactions"": """",
+                    ""processors"": ""Scale(factor=7)"",
+                    ""groups"": """",
+                    ""action"": ""HotBarChoose"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""88343e04-319c-40d8-8dc1-ebe11961f418"",
+                    ""path"": ""<Keyboard>/8"",
+                    ""interactions"": """",
+                    ""processors"": ""Scale(factor=8)"",
+                    ""groups"": """",
+                    ""action"": ""HotBarChoose"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""159b8a79-f2ef-47d0-96ef-24af321e05fc"",
+                    ""path"": ""<Keyboard>/9"",
+                    ""interactions"": """",
+                    ""processors"": ""Scale(factor=9)"",
+                    ""groups"": """",
+                    ""action"": ""HotBarChoose"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -162,6 +270,7 @@ public partial class @Input : IInputActionCollection2, IDisposable
         m_Ingame_Delete = m_Ingame.FindAction("Delete", throwIfNotFound: true);
         m_Ingame_Pointer = m_Ingame.FindAction("Pointer", throwIfNotFound: true);
         m_Ingame_HotBarScroll = m_Ingame.FindAction("HotBarScroll", throwIfNotFound: true);
+        m_Ingame_HotBarChoose = m_Ingame.FindAction("HotBarChoose", throwIfNotFound: true);
         m_Ingame_StartWave = m_Ingame.FindAction("StartWave", throwIfNotFound: true);
     }
 
@@ -226,6 +335,7 @@ public partial class @Input : IInputActionCollection2, IDisposable
     private readonly InputAction m_Ingame_Delete;
     private readonly InputAction m_Ingame_Pointer;
     private readonly InputAction m_Ingame_HotBarScroll;
+    private readonly InputAction m_Ingame_HotBarChoose;
     private readonly InputAction m_Ingame_StartWave;
     public struct IngameActions
     {
@@ -235,6 +345,7 @@ public partial class @Input : IInputActionCollection2, IDisposable
         public InputAction @Delete => m_Wrapper.m_Ingame_Delete;
         public InputAction @Pointer => m_Wrapper.m_Ingame_Pointer;
         public InputAction @HotBarScroll => m_Wrapper.m_Ingame_HotBarScroll;
+        public InputAction @HotBarChoose => m_Wrapper.m_Ingame_HotBarChoose;
         public InputAction @StartWave => m_Wrapper.m_Ingame_StartWave;
         public InputActionMap Get() { return m_Wrapper.m_Ingame; }
         public void Enable() { Get().Enable(); }
@@ -257,6 +368,9 @@ public partial class @Input : IInputActionCollection2, IDisposable
                 @HotBarScroll.started -= m_Wrapper.m_IngameActionsCallbackInterface.OnHotBarScroll;
                 @HotBarScroll.performed -= m_Wrapper.m_IngameActionsCallbackInterface.OnHotBarScroll;
                 @HotBarScroll.canceled -= m_Wrapper.m_IngameActionsCallbackInterface.OnHotBarScroll;
+                @HotBarChoose.started -= m_Wrapper.m_IngameActionsCallbackInterface.OnHotBarChoose;
+                @HotBarChoose.performed -= m_Wrapper.m_IngameActionsCallbackInterface.OnHotBarChoose;
+                @HotBarChoose.canceled -= m_Wrapper.m_IngameActionsCallbackInterface.OnHotBarChoose;
                 @StartWave.started -= m_Wrapper.m_IngameActionsCallbackInterface.OnStartWave;
                 @StartWave.performed -= m_Wrapper.m_IngameActionsCallbackInterface.OnStartWave;
                 @StartWave.canceled -= m_Wrapper.m_IngameActionsCallbackInterface.OnStartWave;
@@ -276,6 +390,9 @@ public partial class @Input : IInputActionCollection2, IDisposable
                 @HotBarScroll.started += instance.OnHotBarScroll;
                 @HotBarScroll.performed += instance.OnHotBarScroll;
                 @HotBarScroll.canceled += instance.OnHotBarScroll;
+                @HotBarChoose.started += instance.OnHotBarChoose;
+                @HotBarChoose.performed += instance.OnHotBarChoose;
+                @HotBarChoose.canceled += instance.OnHotBarChoose;
                 @StartWave.started += instance.OnStartWave;
                 @StartWave.performed += instance.OnStartWave;
                 @StartWave.canceled += instance.OnStartWave;
@@ -289,6 +406,7 @@ public partial class @Input : IInputActionCollection2, IDisposable
         void OnDelete(InputAction.CallbackContext context);
         void OnPointer(InputAction.CallbackContext context);
         void OnHotBarScroll(InputAction.CallbackContext context);
+        void OnHotBarChoose(InputAction.CallbackContext context);
         void OnStartWave(InputAction.CallbackContext context);
     }
 }
