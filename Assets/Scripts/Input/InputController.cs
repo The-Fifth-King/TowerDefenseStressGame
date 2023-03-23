@@ -98,7 +98,7 @@ public class InputController : MonoBehaviour
         }
     }
 
-    private void HotBarChooseHandler(InputAction.CallbackContext context) => _gameController.SetCurrentHotBarIndex((int) context.ReadValue<float>());
+    private void HotBarChooseHandler(InputAction.CallbackContext context) => _gameController.SetCurrentHotBarIndex((int) context.ReadValue<float>() - 1);
     
     private void StartWaveHandler(InputAction.CallbackContext context) => _gameController.SpawnWave();
 

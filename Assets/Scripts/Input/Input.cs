@@ -258,6 +258,17 @@ public partial class @Input : IInputActionCollection2, IDisposable
                     ""action"": ""HotBarChoose"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""173cfd2b-b793-44b0-a5bc-51f4686ae743"",
+                    ""path"": ""<Keyboard>/0"",
+                    ""interactions"": """",
+                    ""processors"": ""Scale(factor=10)"",
+                    ""groups"": """",
+                    ""action"": ""HotBarChoose"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
